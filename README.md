@@ -1,0 +1,1 @@
+API проекта symptom.kz
