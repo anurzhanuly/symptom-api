@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+class DoctorsController extends Controller
+{
+    public function index(Request $request): JsonResponse
+    {
+        return response()->json(['status' => 'ok']);
+    }
+
+    public function show(Request $request): JsonResponse
+    {
+        return response()->json(['status' => 'ok']);
+    }
+
+    public function create(Request $request): JsonResponse
+    {
+        return response()->json(['status' => 'ok']);
+    }
+
+    public function update(Request $request): JsonResponse
+    {
+        return response()->json(['status' => 'ok']);
+    }
+}
