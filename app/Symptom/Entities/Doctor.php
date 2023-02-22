@@ -1,10 +1,42 @@
 <?php
+namespace App\Symptom\Entities;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Doctor extends Model
 {
     protected $table = 'doctors';
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->first_name;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->last_name;
+    }
+
+    public function getMiddleName(): ?string
+    {
+        return $this->middle_name;
+    }
+
+    public function getSpecialization(): ?string
+    {
+        return $this->hasOne(Specialization::class, 'id', 'specialization_id')->first()->getName();
+    }
+
+    public function getExperienceText(): string
+    {
+        return sprintf('%s лет', $this->experience);
+    }
 
     public function getClinics(): array
     {
