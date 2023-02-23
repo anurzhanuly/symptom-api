@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Patient extends Model
 {
-    protected $table = 'patient';
+    protected $table = 'patients';
 
     public function getId(): int
     {

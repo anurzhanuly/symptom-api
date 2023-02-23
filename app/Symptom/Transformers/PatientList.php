@@ -6,7 +6,7 @@ use League\Fractal\TransformerAbstract;
 
 class PatientList extends TransformerAbstract
 {
-    public string $type = 'doctor';
+    public string $type = 'patient';
 
     public function transform(Patient $doctor): array
     {

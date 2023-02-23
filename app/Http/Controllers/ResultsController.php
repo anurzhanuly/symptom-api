@@ -2,23 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Symptom\Services\Results\GetResultById;
+use App\Symptom\Transformers\Result;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class ResultsController
+class ResultsController extends Controller
 {
-    public function show(Request $request): JsonResponse
+    public function show(Request $request, GetResultById $getResultByIdService, Result $resultTransformer, int $id): JsonResponse
     {
-        return response()->json(['status' => 'ok']);
-    }
-
-    public function create(Request $request): JsonResponse
-    {
-        return response()->json(['status' => 'ok']);
-    }
-
-    public function update(Request $request): JsonResponse
-    {
-        return response()->json(['status' => 'ok']);
+        return response()->json($this->item($getResultByIdService->execute($id), $resultTransformer));
     }
 }

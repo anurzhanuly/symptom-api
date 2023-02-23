@@ -3,6 +3,7 @@
 use App\Http\Controllers\ClinicsController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\ResultsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,7 +47,5 @@ Route::prefix('/patients')->group(function () {
 });
 
 Route::prefix('/results')->group(function () {
-    Route::get('/{id}', [PatientsController::class, 'show'])->name('patients.show');
-    Route::get('/new', [PatientsController::class, 'create'])->name('patients.create');
-    Route::get('/update', [PatientsController::class, 'update'])->name('patients.update');
+    Route::get('/{id}', [ResultsController::class, 'show'])->name('results.show');
 });
