@@ -8,6 +8,26 @@ class Patient extends Model
 {
     protected $table = 'patient';
 
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->first_name;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->last_name;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
     public function getResults(): array
     {
         return $this->results()->get()->all();

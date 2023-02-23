@@ -3,7 +3,7 @@ namespace App\Symptom\Services\Clinics;
 
 use App\Symptom\Entities\Clinic;
 use App\Symptom\Repositories\ClinicRepository;
-use App\Symptom\Services\Commands\CreateCommand;
+use App\Symptom\Services\Commands\ClinicCreateCommand;
 
 class Create
 {
@@ -14,7 +14,7 @@ class Create
         $this->clinicRepository = $clinicRepository;
     }
 
-    public function execute(CreateCommand $command): Clinic
+    public function execute(ClinicCreateCommand $command): Clinic
     {
         return $this->clinicRepository->create($command->toArray());
     }

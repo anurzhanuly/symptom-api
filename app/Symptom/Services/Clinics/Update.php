@@ -3,7 +3,7 @@ namespace App\Symptom\Services\Clinics;
 
 use App\Symptom\Entities\Clinic;
 use App\Symptom\Repositories\ClinicRepository;
-use App\Symptom\Services\Commands\UpdateCommand;
+use App\Symptom\Services\Commands\ClinicUpdateCommand;
 
 class Update
 {
@@ -14,7 +14,7 @@ class Update
         $this->clinicRepository = $clinicRepository;
     }
 
-    public function execute(UpdateCommand $command): Clinic
+    public function execute(ClinicUpdateCommand $command): Clinic
     {
         return $this->clinicRepository->update($command->getId(), $command->toArray());
     }

@@ -5,8 +5,8 @@ use App\Symptom\Services\Clinics\Create;
 use App\Symptom\Services\Clinics\GetClinicById;
 use App\Symptom\Services\Clinics\GetClinics;
 use App\Symptom\Services\Clinics\Update;
-use App\Symptom\Services\Commands\CreateCommand;
-use App\Symptom\Services\Commands\UpdateCommand;
+use App\Symptom\Services\Commands\ClinicCreateCommand;
+use App\Symptom\Services\Commands\ClinicUpdateCommand;
 use App\Symptom\Transformers\Clinic;
 use App\Symptom\Transformers\ClinicList;
 use Illuminate\Http\Request;
@@ -39,7 +39,7 @@ class ClinicsController extends Controller
     {
         return response()->json(
             $this->item($createClinicService->execute(
-                new CreateCommand($request->get('name'), $request->get('address'), (int) $request->get('city_id'))),
+                new ClinicCreateCommand($request->get('name'), $request->get('address'), (int) $request->get('city_id'))),
                 $clinicTransformer
             )
         );
@@ -49,7 +49,7 @@ class ClinicsController extends Controller
     {
         return response()->json(
             $this->item($updateClinicService->execute(
-                new UpdateCommand($id, $request->get('name'), $request->get('address'), (int) $request->get('city_id'))),
+                new ClinicUpdateCommand($id, $request->get('name'), $request->get('address'), (int) $request->get('city_id'))),
                 $clinicTransformer
             )
         );

@@ -8,6 +8,14 @@ class Doctor extends Model
 {
     protected $table = 'doctors';
 
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'middle_name',
+        'specialization_id',
+        'experience',
+    ];
+
     public function getId(): int
     {
         return $this->id;

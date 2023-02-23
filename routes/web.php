@@ -34,15 +34,15 @@ Route::prefix('/clinics')->group(function () {
 Route::prefix('/doctors')->group(function () {
     Route::get('/', [DoctorsController::class, 'index'])->name('doctors.index');
     Route::get('/{id}', [DoctorsController::class, 'show'])->name('doctors.show');
-    Route::get('/new', [DoctorsController::class, 'create'])->name('doctors.create');
-    Route::get('/update', [DoctorsController::class, 'update'])->name('doctors.update');
+    Route::post('/new', [DoctorsController::class, 'create'])->name('doctors.create');
+    Route::post('/{id}/update', [DoctorsController::class, 'update'])->name('doctors.update');
 });
 
 Route::prefix('/patients')->group(function () {
     Route::get('/', [PatientsController::class, 'index'])->name('patients.index');
     Route::get('/{id}', [PatientsController::class, 'show'])->name('patients.show');
     Route::get('/new', [PatientsController::class, 'create'])->name('patients.create');
-    Route::get('/update', [PatientsController::class, 'update'])->name('patients.update');
+    Route::get('/{id}/update', [PatientsController::class, 'update'])->name('patients.update');
 });
 
 Route::prefix('/results')->group(function () {
