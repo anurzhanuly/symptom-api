@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\ClinicsController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\ResultsController;
+use App\Http\Controllers\SpecializationsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,3 +51,7 @@ Route::prefix('/patients')->group(function () {
 Route::prefix('/results')->group(function () {
     Route::get('/{id}', [ResultsController::class, 'show'])->name('results.show');
 });
+
+// Технические роуты для форм
+Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
+Route::get('/specializations', [SpecializationsController::class, 'index'])->name('specialization.index');
