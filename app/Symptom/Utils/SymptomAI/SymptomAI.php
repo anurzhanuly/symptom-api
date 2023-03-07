@@ -3,7 +3,6 @@
 namespace App\Symptom\Utils\SymptomAI;
 
 use Illuminate\Support\Facades\Http;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SymptomAI implements RecommendationInterface
 {
