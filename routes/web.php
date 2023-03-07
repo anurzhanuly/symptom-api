@@ -4,6 +4,7 @@ use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\ClinicsController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\RecommendationsController;
 use App\Http\Controllers\ResultsController;
 use App\Http\Controllers\SpecializationsController;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,11 @@ Route::prefix('/patients')->group(function () {
     Route::get('/{id}', [PatientsController::class, 'show'])->name('patients.show');
     Route::get('/new', [PatientsController::class, 'create'])->name('patients.create');
     Route::get('/{id}/update', [PatientsController::class, 'update'])->name('patients.update');
+});
+
+Route::prefix('/recommendations')->group(function () {
+    Route::post('/', [RecommendationsController::class, 'getRecommendation'])
+        ->name('recommendations.getRecommendation');
 });
 
 Route::prefix('/results')->group(function () {
