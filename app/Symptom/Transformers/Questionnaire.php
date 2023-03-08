@@ -12,8 +12,10 @@ class Questionnaire extends TransformerAbstract
     public function transform(QuestionnaireEntity $questionnaire): array
     {
         return [
-            'id'      => $questionnaire->getId(),
-            'content' => $questionnaire->getContent(),
+            'id'               => $questionnaire->getId(),
+            'name'             => $questionnaire->getName(),
+            'original_version' => $questionnaire->getOriginalVersion(),
+            'survey_version'   => $questionnaire->getSurveyVersion(),
         ];
     }
 }
