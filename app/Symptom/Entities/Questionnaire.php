@@ -11,15 +11,24 @@ class Questionnaire extends Model
 
     protected $table = 'questionnaires';
 
-    protected $fillable = ['name', 'content'];
+    protected $fillable = ['name', 'original_version', 'survey_version'];
 
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getContent(): string
+    public function getName(): string
     {
-        return $this->content;
+        return $this->name;
+    }
+
+    public function getOriginalVersion(): string
+    {
+        return $this->original_version;
+    }
+    public function getSurveyVersion(): string
+    {
+        return $this->survey_version;
     }
 }

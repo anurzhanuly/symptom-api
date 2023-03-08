@@ -14,9 +14,9 @@ class QuestionnairesController extends Controller
         Create $createService,
         Questionnaire $questionnaireTransformer
     ): JsonResponse {
-        $content = $request->get('content');
-        $name    = $request->get('name');
-        $model   = $createService->execute($content, $name);
+        $originalVersion = $request->get('original_version');
+        $name            = $request->get('name');
+        $model           = $createService->execute($originalVersion, $name);
 
         return response()->json($this->item($model, $questionnaireTransformer));
     }
