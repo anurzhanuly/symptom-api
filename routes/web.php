@@ -4,6 +4,7 @@ use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\ClinicsController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PatientsController;
+use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResultsController;
 use App\Http\Controllers\SpecializationsController;
 use Illuminate\Support\Facades\Route;
@@ -19,13 +20,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::post('register', [RegisterController::class, 'register']);
+Route::post('login', [RegisterController::class, 'login']);
 
 Route::prefix('/clinics')->group(function () {
     Route::get('/', [ClinicsController::class, 'index'])->name('clinics.index');
