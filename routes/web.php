@@ -5,6 +5,7 @@ use App\Http\Controllers\ClinicsController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\QuestionnairesController;
 use App\Http\Controllers\RecommendationsController;
 use App\Http\Controllers\ResultsController;
 use App\Http\Controllers\SpecializationsController;
@@ -45,6 +46,11 @@ Route::middleware('authByToken')->group(function() {
 Route::prefix('/recommendations')->group(function () {
     Route::post('/', [RecommendationsController::class, 'getRecommendation'])
         ->name('recommendations.getRecommendation');
+});
+
+Route::prefix('/questionnaires')->group(function () {
+    Route::post('/new', [QuestionnairesController::class, 'create'])
+        ->name('questionnaires.create');
 });
 
 Route::prefix('/results')->group(function () {
