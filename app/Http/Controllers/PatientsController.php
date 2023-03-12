@@ -1,29 +1,16 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Symptom\Transformers\Patient;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-//ToDo после авторизации
 class PatientsController extends Controller
 {
-    public function index(Request $request): JsonResponse
+    public function show(Request $request, Patient $patientTransformer): JsonResponse
     {
-        return response()->json(['status' => 'ok']);
-    }
-
-    public function show(Request $request): JsonResponse
-    {
-        return response()->json(['status' => 'ok']);
-    }
-
-    public function create(Request $request): JsonResponse
-    {
-        return response()->json(['status' => 'ok']);
-    }
-
-    public function update(Request $request): JsonResponse
-    {
-        return response()->json(['status' => 'ok']);
+        return response()->json(
+            $this->item($request->get('user'), $patientTransformer)
+        );
     }
 }
