@@ -16,6 +16,11 @@ class Update
 
     public function execute(DoctorUpdateCommand $command): Doctor
     {
-        return $this->doctorRepository->update($command->getId(), $command->toArray());
+        return $this->doctorRepository->update(
+            $command->getId(),
+            array_filter($command->toArray(),function($item) {
+                return $item !== null;
+            })
+        );
     }
 }

@@ -12,7 +12,7 @@ class SpecializationList extends TransformerAbstract
     {
         return [
             'id'      => $specialization->getId(),
-            'city'    => $specialization->getName(),
+            'name'    => $specialization->getName(),
         ];
     }
 }

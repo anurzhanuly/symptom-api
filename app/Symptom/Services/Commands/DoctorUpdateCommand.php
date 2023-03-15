@@ -5,18 +5,24 @@ class DoctorUpdateCommand
 {
     private int $id;
 
-    private string $firstName;
+    private ?string $firstName;
 
-    private string $lastName;
+    private ?string $lastName;
 
-    private string $middleName;
+    private ?string $middleName;
 
-    private int $specializationId;
+    private ?int $specializationId;
 
-    private int $experience;
+    private ?int $experience;
 
-    public function __construct(int $id, string $firstName, string $lastName, string $middleName, int $specializationId, int $experience)
-    {
+    public function __construct(
+        int $id,
+        ?string $firstName = null,
+        ?string $lastName = null,
+        ?string $middleName = null,
+        ?int $specializationId = null,
+        ?int $experience = null
+    ) {
         $this->id               = $id;
         $this->firstName        = $firstName;
         $this->lastName         = $lastName;

@@ -8,6 +8,8 @@ class Patient extends Model
 {
     protected $table = 'patients';
 
+    protected $fillable = ['first_name', "last_name", 'phone'];
+
     public function getId(): int
     {
         return $this->id;

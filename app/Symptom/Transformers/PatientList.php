@@ -8,13 +8,13 @@ class PatientList extends TransformerAbstract
 {
     public string $type = 'patient';
 
-    public function transform(Patient $doctor): array
+    public function transform(Patient $patient): array
     {
         return [
-            'id'             => $doctor->getId(),
-            'firstName'      => $doctor->getFirstName(),
-            'lastName'       => $doctor->getLastName(),
-            'phone'          => $doctor->getPhone(),
+            'id'             => $patient->getId(),
+            'firstName'      => $patient->getFirstName(),
+            'lastName'       => $patient->getLastName(),
+            'phone'          => $patient->getPhone(),
         ];
     }
 }
