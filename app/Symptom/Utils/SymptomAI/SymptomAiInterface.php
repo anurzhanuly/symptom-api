@@ -2,7 +2,7 @@
 
 namespace App\Symptom\Utils\SymptomAI;
 
-interface RecommendationInterface
+interface SymptomAiInterface
 {
     /**
      * Метод для получения рекомендации от МЛ модели Symptom-ai.
