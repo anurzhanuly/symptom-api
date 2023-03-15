@@ -4,7 +4,7 @@ namespace App\Symptom\Utils\SymptomAI;
 
 use Illuminate\Support\Facades\Http;
 
-class SymptomAI implements RecommendationInterface
+class SymptomAI implements SymptomAiInterface
 {
     /**
      * Роут для получения базовых рекомендации по опроснику пользователя

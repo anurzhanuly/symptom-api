@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Symptom\Utils\SymptomAI\RecommendationInterface;
+use App\Symptom\Utils\SymptomAI\SymptomAiInterface;
 use App\Symptom\Utils\SymptomAI\SymptomAI;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(RecommendationInterface::class, function () {
+        $this->app->bind(SymptomAiInterface::class, function () {
             return new SymptomAI();
         });
     }
