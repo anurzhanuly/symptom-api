@@ -3193,6 +3193,7 @@ POST http://{{host}}/recommendations
 Content-Type: application/json
 
 {
+    "lang": "ru",
     "answers": {
         "Ваш пол": [
             "Мужской"
