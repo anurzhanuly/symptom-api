@@ -13,7 +13,8 @@ class RecommendationsController extends Controller
         SymptomAiInterface $symptomAi
     ): JsonResponse {
         $userAnswers     = $request->get('answers');
-        $recommendations = $symptomAi->getRecommendations($userAnswers);
+        $lang            = $request->get('lang', 'ru');
+        $recommendations = $symptomAi->getRecommendations($userAnswers, $lang);
 
         return response()->json($recommendations);
     }
