@@ -8,6 +8,7 @@ use App\Http\Controllers\QuestionnairesController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\RecommendationsController;
 use App\Http\Controllers\ResultsController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SpecializationsController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,10 @@ Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('login', [AuthenticationController::class, 'login']);
 
 Route::middleware('authByToken')->group(function() {
+    Route::prefix('/settings')->group(function () {
+        Route::post('/new', [SettingsController::class, 'create'])->name('settings.create');
+    });
+
     Route::prefix('/clinics')->group(function () {
         Route::get('/', [ClinicsController::class, 'index'])->name('clinics.index');
         Route::get('/{id}', [ClinicsController::class, 'show'])->name('clinics.show');
