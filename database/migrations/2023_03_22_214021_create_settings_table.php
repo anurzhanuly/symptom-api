@@ -6,14 +6,14 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    private string $tableName = 'questionnaires';
+    private string $tableName = 'settings';
 
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up(): void
+    public function up()
     {
         if (Schema::hasTable($this->tableName)) {
             return;
@@ -21,9 +21,8 @@ return new class extends Migration
 
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->json('original');
-            $table->json('survey');
+            $table->string('name', 255)->nullable(false);
+            $table->json('value')->nullable(false);
             $table->timestamps();
         });
     }
@@ -33,8 +32,8 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('questionnaires');
+        Schema::dropIfExists('settings');
     }
 };
