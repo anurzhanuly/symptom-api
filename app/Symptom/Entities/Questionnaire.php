@@ -11,7 +11,7 @@ class Questionnaire extends Model
 
     protected $table = 'questionnaires';
 
-    protected $fillable = ['name', 'original_version', 'survey_version'];
+    protected $fillable = ['name', 'questionnaire', 'patient_card_options', 'is_main'];
 
     public function getId(): int
     {
@@ -23,12 +23,18 @@ class Questionnaire extends Model
         return $this->name;
     }
 
-    public function getOriginalVersion(): string
+    public function getQuestionnaire(): string
     {
-        return $this->original_version;
+        return $this->attributes['questionnaire'];
     }
-    public function getSurveyVersion(): string
+
+    public function getPatientCardOptions(): string
     {
-        return $this->survey_version;
+        return $this->attributes['patient_card_options'];
+    }
+
+    public function getIsMain(): string
+    {
+        return $this->attributes['is_main'];
     }
 }

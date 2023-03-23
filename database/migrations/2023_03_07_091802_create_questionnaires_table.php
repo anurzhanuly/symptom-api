@@ -22,8 +22,9 @@ return new class extends Migration
         Schema::create($this->tableName, function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->json('original');
-            $table->json('survey');
+            $table->json('questionnaire')->nullable(false);
+            $table->json('patient_card_options')->nullable(false);
+            $table->boolean('is_main')->default(false);
             $table->timestamps();
         });
     }

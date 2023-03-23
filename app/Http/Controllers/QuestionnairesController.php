@@ -9,15 +9,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class QuestionnairesController extends Controller
 {
+    /**
+     * @throws \Exception
+     */
     public function create(
         Request $request,
         Create $createService,
-        Questionnaire $questionnaireTransformer
     ): JsonResponse {
-        $originalVersion = $request->get('original_version');
+        $originalVersion = $request->get('content');
         $name            = $request->get('name');
-        $model           = $createService->execute($originalVersion, $name);
+        $isSaved         = $createService->execute($originalVersion, $name);
 
-        return response()->json($this->item($model, $questionnaireTransformer));
+        return response()->json(['isSaved' => $isSaved]);
     }
 }
