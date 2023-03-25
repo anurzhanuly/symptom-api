@@ -52,4 +52,9 @@ class Questionnaire extends Model
     {
         $this->setAttribute('name', $name);
     }
+
+    public function setIsMain(bool $isMain)
+    {
+        $this->setAttribute('is_main', $isMain);
+    }
 }
