@@ -25,16 +25,31 @@ class Questionnaire extends Model
 
     public function getQuestionnaire(): string
     {
-        return $this->attributes['questionnaire'];
+        return json_decode($this->getAttribute('questionnaire'), true);
+    }
+
+    public function setQuestionnaire(array $questionnaire)
+    {
+        $this->setAttribute('questionnaire', json_encode($questionnaire));
     }
 
     public function getPatientCardOptions(): string
     {
-        return $this->attributes['patient_card_options'];
+        return json_decode($this->getAttribute('patient_card_options'), true);
     }
 
     public function getIsMain(): string
     {
-        return $this->attributes['is_main'];
+        return $this->getAttribute('is_main');
+    }
+
+    public function setPatientCardOptions(array $patientCardOptions): void
+    {
+        $this->setAttribute('patient_card_options', json_encode($patientCardOptions));
+    }
+
+    public function setName(string $name)
+    {
+        $this->setAttribute('name', $name);
     }
 }
