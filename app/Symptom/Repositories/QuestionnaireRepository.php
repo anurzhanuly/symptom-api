@@ -18,6 +18,13 @@ class QuestionnaireRepository
             ->first();
     }
 
+    public function getLatestDisplayOptions()
+    {
+        return Questionnaire::select('patient_card_options')
+            ->latest('created_at')
+            ->first();
+    }
+
     public function getOneById(int $id): Questionnaire
     {
         return Questionnaire::find($id);

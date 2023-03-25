@@ -33,7 +33,7 @@ class Questionnaire extends Model
         $this->setAttribute('questionnaire', json_encode($questionnaire));
     }
 
-    public function getPatientCardOptions(): ?string
+    public function getPatientCardOptions(): ?array
     {
         return json_decode($this->getAttribute('patient_card_options'), true);
     }

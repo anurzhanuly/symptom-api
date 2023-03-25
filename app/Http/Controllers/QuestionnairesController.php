@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Symptom\Services\Questionnaires\Create;
+use App\Symptom\Services\Questionnaires\GetDisplayOptions;
 use App\Symptom\Services\Questionnaires\GetQuestionnaire;
 use App\Symptom\Transformers\Questionnaire;
 use Illuminate\Http\Request;
@@ -39,6 +40,16 @@ class QuestionnairesController extends Controller
     ): JsonResponse {
         return response()->json(
             $this->item($getQuestionnaireService->execute(), $questionnaireTransformer)
+        );
+    }
+
+    public function showDisplayOptions(
+        Request           $request,
+        GetDisplayOptions $getDisplayOptions,
+        Questionnaire     $questionnaireTransformer
+    ): JsonResponse {
+        return response()->json(
+            $this->item($getDisplayOptions->execute(), $questionnaireTransformer)
         );
     }
 }
