@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Symptom\Services\Questionnaires\Create;
+use App\Symptom\Services\Questionnaires\GetQuestionnaire;
 use App\Symptom\Transformers\Questionnaire;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,5 +29,16 @@ class QuestionnairesController extends Controller
         }
 
         return response()->json(['isSaved' => $isSaved]);
+    }
+
+    // TODO: Сделать так, чтобы возвращался только основной опросник, если такой функционал понадобится
+    public function show(
+        Request $request,
+        GetQuestionnaire $getQuestionnaireService,
+        Questionnaire $questionnaireTransformer
+    ): JsonResponse {
+        return response()->json(
+            $this->item($getQuestionnaireService->execute(), $questionnaireTransformer)
+        );
     }
 }

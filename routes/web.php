@@ -56,6 +56,10 @@ Route::prefix('/recommendations')->group(function () {
 Route::prefix('/questionnaires')->group(function () {
     Route::post('/new', [QuestionnairesController::class, 'create'])
         ->name('questionnaires.create');
+    Route::get('/latest', [QuestionnairesController::class, 'show'])
+        ->name('questionnaires.show');
+    Route::get('/display-options', [QuestionnairesController::class, 'showDisplayOptions'])
+        ->name('questionnaires.display-options');
 });
 
 Route::prefix('/results')->group(function () {

@@ -11,6 +11,13 @@ class QuestionnaireRepository
         return Questionnaire::all()->all();
     }
 
+    public function getLatest()
+    {
+        return Questionnaire::select('questionnaire')
+            ->latest('created_at')
+            ->first();
+    }
+
     public function getOneById(int $id): Questionnaire
     {
         return Questionnaire::find($id);

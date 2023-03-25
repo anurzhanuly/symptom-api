@@ -13,17 +13,17 @@ class Questionnaire extends Model
 
     protected $fillable = ['name', 'questionnaire', 'patient_card_options', 'is_main'];
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function getQuestionnaire(): string
+    public function getQuestionnaire(): ?array
     {
         return json_decode($this->getAttribute('questionnaire'), true);
     }
@@ -33,12 +33,12 @@ class Questionnaire extends Model
         $this->setAttribute('questionnaire', json_encode($questionnaire));
     }
 
-    public function getPatientCardOptions(): string
+    public function getPatientCardOptions(): ?string
     {
         return json_decode($this->getAttribute('patient_card_options'), true);
     }
 
-    public function getIsMain(): string
+    public function getIsMain(): ?bool
     {
         return $this->getAttribute('is_main');
     }
