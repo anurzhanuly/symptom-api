@@ -14,11 +14,11 @@ class RecommendationsController extends Controller
         SymptomAiInterface $symptomAi,
         GetPatientCard $getPatientCardService
     ): JsonResponse {
-        $recommendations               = [];
-        $userAnswers                   = $request->get('answers');
-        $lang                          = $request->get('lang', 'ru');
-        $recommendations['patienCard'] = $getPatientCardService->execute($userAnswers);
-        $recommendations['symptomAi']  = $symptomAi->getRecommendations($userAnswers, $lang);
+        $recommendations                = [];
+        $userAnswers                    = $request->get('answers');
+        $lang                           = $request->get('lang', 'ru');
+        $recommendations['patientCard'] = $getPatientCardService->execute($userAnswers);
+        $recommendations['symptomAi']   = $symptomAi->getRecommendations($userAnswers, $lang);
 
         return response()->json($recommendations);
     }
