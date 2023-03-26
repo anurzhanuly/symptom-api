@@ -19,9 +19,8 @@ class Questionnaire extends TestCase
 
         $result = $questionnaireCreateService->transform($questionnaire);
 
-        $this->assertEquals($expected['sectionName'], $result[0]['sectionName'], 'Titles dont match');
-        $this->assertEquals($expected['displayName'], $result[0]['displayName'], 'displayName dont match');
-        $this->assertEquals($expected['values'], $result[0]['values'], 'values dont match');
+        $this->assertEquals($expected['Diarhea']['questions'], $result['Diarhea']['questions'], 'question name dont match');
+        $this->assertEquals($expected['Diarhea']['values'], $result['Diarhea']['values'], 'values dont match');
     }
 
     public function get_patient_card_options_creation_data()
@@ -37,6 +36,8 @@ class Questionnaire extends TestCase
                                     'name' => 'has a diarhea',
                                     'title' => 'Do you have a diarhea',
                                     'choices' => [
+                                        'Yes',
+                                        'No',
                                         [
                                             'value' => 'Patient has diearhea', 'text' => 'Yes, I have'
                                         ],
@@ -49,19 +50,16 @@ class Questionnaire extends TestCase
                         ]
                     ]
                 ],
-                'expected' => [
-                    'sectionName' => 'Diarhea',
-                    'displayName' => ['has a diarhea'],
+                'expected' => [ 'Diarhea' => [
+                    'questions' => ['Do you have a diarhea' => 'has a diarhea'],
                     'values'       => [
-                        'has a diarhea' => [
-                            [
-                                'value' => 'Patient has diearhea', 'text' => 'Yes, I have'
-                            ],
-                            [
-                                'value' => 'Patient doesnt have it', 'text' => 'No, I dont'
-                            ]
+                        'Do you have a diarhea' => [
+                            'Yes' => 'Yes',
+                            'No' => 'No',
+                            'Yes, I have' => 'Patient has diearhea',
+                            'No, I dont' => 'Patient doesnt have it',
                         ],
-                    ]
+                    ]]
                 ],
             ],
             [
@@ -79,9 +77,9 @@ class Questionnaire extends TestCase
                     ],
                 ],
                 'expected' => [
-                    'sectionName' => 'Diarhea',
-                    'displayName' => ['has a diarhea'],
-                    'values'       => ['has a diarhea' => []]
+                    'Diarhea' => [
+                    'questions' => ['Do you have a diarhea' => 'has a diarhea'],
+                    'values'       => ['Do you have a diarhea' => []]]
                 ],
             ],
         ];

@@ -38,22 +38,44 @@ class Create
         $patientCardOptions = [];
 
         foreach ($questionnaireParts as $sectionContents) {
-            $tmp                = [];
-            $tmp['sectionName'] = $sectionContents['name'];
+            $tmp = [];
 
             foreach ($sectionContents['elements'] as $questionDetails) {
-                $tmp['displayName'][] = $questionDetails['name'];
+                $questionTitle = $questionDetails['title'] ?? 'noTitle';
+                $tmp['questions'][$questionTitle] = $questionDetails['name'];
 
                 if (!isset($questionDetails['choices'])) {
-                    $tmp['values'][$questionDetails['name']] = [];
+                    $tmp['values'][$questionTitle] = [];
 
                     continue;
                 }
 
-                $tmp['values'][$questionDetails['name']] = $questionDetails['choices'];
+                $choices = [];
+
+                foreach ($questionDetails['choices'] as $answer) {
+                    if (empty($answer)) {
+                        continue;
+                    }
+
+                    if (!is_array($answer)) {
+                        $choices[$answer] = $answer;
+
+                        continue;
+                    }
+
+                    if (!isset($answer['text'])) {
+                        $choices[$answer['value']] = $answer['value'];
+
+                        continue;
+                    }
+
+                    $choices[$answer['text']] = $answer['value'];
+                }
+
+                $tmp['values'][$questionTitle] = $choices;
             }
 
-            $patientCardOptions[] = $tmp;
+            $patientCardOptions[$sectionContents['name']] = $tmp;
         }
 
         return $patientCardOptions;
