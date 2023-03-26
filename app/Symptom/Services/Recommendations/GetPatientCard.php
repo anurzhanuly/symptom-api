@@ -52,6 +52,10 @@ class GetPatientCard
                     $result[$sectionName][$displayName] = $answerOptions[$questionName][$answer];
                 }
             }
+
+            if (empty($result[$sectionName])) {
+                unset($result[$sectionName]);
+            }
         }
 
         return $result;
