@@ -18,7 +18,7 @@ class QuestionnaireRepository
             ->first();
     }
 
-    public function getLatestDisplayOptions()
+    public function getLatestDisplayOptions(): Questionnaire
     {
         return Questionnaire::select('patient_card_options')
             ->latest('created_at')

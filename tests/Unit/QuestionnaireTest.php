@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Symptom\Services\Questionnaires\Create;
 use Tests\TestCase;
 
-class Questionnaire extends TestCase
+class QuestionnaireTest extends TestCase
 {
     /**
      * A basic feature test example.
