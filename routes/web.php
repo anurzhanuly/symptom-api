@@ -27,10 +27,6 @@ Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('login', [AuthenticationController::class, 'login']);
 
 Route::middleware('authByToken')->group(function() {
-    Route::prefix('/settings')->group(function () {
-        Route::post('/new', [SettingsController::class, 'create'])->name('settings.create');
-    });
-
     Route::prefix('/clinics')->group(function () {
         Route::get('/', [ClinicsController::class, 'index'])->name('clinics.index');
         Route::get('/{id}', [ClinicsController::class, 'show'])->name('clinics.show');
@@ -51,6 +47,10 @@ Route::middleware('authByToken')->group(function() {
 Route::prefix('/recommendations')->group(function () {
     Route::post('/', [RecommendationsController::class, 'getRecommendation'])
         ->name('recommendations.getRecommendation');
+});
+
+Route::prefix('/settings')->group(function () {
+    Route::post('/new', [SettingsController::class, 'create'])->name('settings.create');
 });
 
 Route::prefix('/questionnaires')->group(function () {
