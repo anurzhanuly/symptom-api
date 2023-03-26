@@ -11,9 +11,14 @@ class SettingRepository
         return Setting::all()->all();
     }
 
-    public function getByName($name): Setting
+    public function getByName(string $name): Setting
     {
-        return Setting::find($name);
+        return Setting::where('name', $name)->first();
+    }
+
+    public function getValueByName(string $name): array
+    {
+        return (Setting::where('name', $name)->first())->getValue();
     }
 
     public function create(array $attributes): Setting

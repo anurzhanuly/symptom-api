@@ -24,6 +24,6 @@ class Setting extends Model
 
     public function getValue()
     {
-        return json_decode($this->attributes['value']);
+        return json_decode($this->attributes['value'], true);
     }
 }
