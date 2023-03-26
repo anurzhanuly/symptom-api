@@ -19,8 +19,8 @@ class SettingsController extends Controller
     public function create(Request $request, Create $createSettingsService): JsonResponse
     {
         $attributes = [
-            $request->get('name'),
-            $request->get('value'),
+            'name'  => $request->get('name'),
+            'value' => $request->get('value'),
         ];
 
         return response()->json($createSettingsService->execute($attributes));
