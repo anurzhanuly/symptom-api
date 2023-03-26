@@ -11,24 +11,50 @@ class Questionnaire extends Model
 
     protected $table = 'questionnaires';
 
-    protected $fillable = ['name', 'original_version', 'survey_version'];
+    protected $fillable = ['name', 'questionnaire', 'patient_card_options', 'is_main'];
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function getOriginalVersion(): string
+    public function getQuestionnaire(): ?array
     {
-        return $this->original_version;
+        return json_decode($this->getAttribute('questionnaire'), true);
     }
-    public function getSurveyVersion(): string
+
+    public function setQuestionnaire(array $questionnaire)
     {
-        return $this->survey_version;
+        $this->setAttribute('questionnaire', json_encode($questionnaire));
+    }
+
+    public function getPatientCardOptions(): ?array
+    {
+        return json_decode($this->getAttribute('patient_card_options'), true);
+    }
+
+    public function getIsMain(): ?bool
+    {
+        return $this->getAttribute('is_main');
+    }
+
+    public function setPatientCardOptions(array $patientCardOptions): void
+    {
+        $this->setAttribute('patient_card_options', json_encode($patientCardOptions));
+    }
+
+    public function setName(string $name)
+    {
+        $this->setAttribute('name', $name);
+    }
+
+    public function setIsMain(bool $isMain)
+    {
+        $this->setAttribute('is_main', $isMain);
     }
 }

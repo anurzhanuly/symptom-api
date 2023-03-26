@@ -8,6 +8,7 @@ use App\Http\Controllers\QuestionnairesController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\RecommendationsController;
 use App\Http\Controllers\ResultsController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SpecializationsController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,9 +49,17 @@ Route::prefix('/recommendations')->group(function () {
         ->name('recommendations.getRecommendation');
 });
 
+Route::prefix('/settings')->group(function () {
+    Route::post('/new', [SettingsController::class, 'create'])->name('settings.create');
+});
+
 Route::prefix('/questionnaires')->group(function () {
     Route::post('/new', [QuestionnairesController::class, 'create'])
         ->name('questionnaires.create');
+    Route::get('/latest', [QuestionnairesController::class, 'show'])
+        ->name('questionnaires.show');
+    Route::get('/display-options', [QuestionnairesController::class, 'showDisplayOptions'])
+        ->name('questionnaires.display-options');
 });
 
 Route::prefix('/results')->group(function () {
