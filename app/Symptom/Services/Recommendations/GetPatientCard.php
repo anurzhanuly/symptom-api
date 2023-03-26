@@ -26,7 +26,7 @@ class GetPatientCard
         return $result;
     }
 
-    private function getPatientCard(mixed $requiredSections, $cardOptions, array $userAnswers)
+    private function getPatientCard(mixed $requiredSections, array $cardOptions, array $userAnswers): array
     {
         $result = [];
 
@@ -39,7 +39,7 @@ class GetPatientCard
             }
 
             foreach ($options['questions'] as $questionName => $displayName) {
-                $answers = $userAnswers[$questionName] ?? [];
+                $answers = $userAnswers[$displayName] ?? [];
                 $answerOptions = $options['values'];
 
                 foreach ($answers as $answer) {
