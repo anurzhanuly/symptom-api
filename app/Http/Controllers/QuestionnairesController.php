@@ -16,7 +16,7 @@ class QuestionnairesController extends Controller
         Create $createService,
     ): JsonResponse {
         $originalVersion = $request->get('content');
-        $name            = $request->get('name');
+        $name            = $request->get('name', 'main');
         $isMain          = $request->get('isMain', false);
 
         try {
