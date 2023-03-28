@@ -11,8 +11,7 @@ class ResultList extends TransformerAbstract
     public function transform(Result $clinic): array
     {
         return [
-            'id'       => $clinic->getId(),
-            'diagnose' => $clinic->getDiagnose(),
+            'id' => $clinic->getId(),
         ];
     }
 }

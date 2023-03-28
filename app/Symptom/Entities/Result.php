@@ -13,11 +13,6 @@ class Result extends Model
         return $this->id;
     }
 
-    public function getDiagnose(): string
-    {
-        return $this->diagnose;
-    }
-
     public function getPatient(): Patient
     {
         return $this->patient()->get()->first();
@@ -28,6 +23,11 @@ class Result extends Model
         return $this->doctor()->get()->first();
     }
 
+    public function getRecommendation(): Recommendation
+    {
+        return $this->recommendation()->get()->first();
+    }
+
     public function patient(): HasOne
     {
         return $this->hasOne(Patient::class, 'id', 'patient_id');
@@ -36,5 +36,10 @@ class Result extends Model
     public function doctor(): HasOne
     {
         return $this->hasOne(Doctor::class, 'id', 'doctor_id');
+    }
+
+    public function recommendation(): HasOne
+    {
+        return $this->hasOne(Recommendation::class, 'id', 'recommendation_id');
     }
 }
