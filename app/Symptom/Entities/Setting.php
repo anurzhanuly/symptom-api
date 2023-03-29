@@ -13,10 +13,6 @@ class Setting extends Model
         'value',
     ];
 
-    protected $casts = [
-        'value' => 'json',
-    ];
-
     public function getName()
     {
         return $this->attributes['name'];
@@ -24,6 +20,11 @@ class Setting extends Model
 
     public function getValue()
     {
-        return json_decode($this->attributes['value'], true);
+        return $this->attributes['value'];
+    }
+
+    public function setValue(array $value)
+    {
+        $this->setAttribute('value', $value);
     }
 }
