@@ -20,7 +20,7 @@ class Setting extends Model
 
     public function getValue()
     {
-        return $this->attributes['value'];
+        return json_decode($this->attributes['value'], true);
     }
 
     public function setValue(array $value)
