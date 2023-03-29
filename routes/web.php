@@ -51,6 +51,8 @@ Route::prefix('/recommendations')->group(function () {
 
 Route::prefix('/settings')->group(function () {
     Route::post('/new', [SettingsController::class, 'create'])->name('settings.create');
+    Route::post('/update', [SettingsController::class, 'update'])->name('settings.update');
+    Route::get('/get-all', [SettingsController::class, 'index'])->name('settings.index');
 });
 
 Route::prefix('/questionnaires')->group(function () {

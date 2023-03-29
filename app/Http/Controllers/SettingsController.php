@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Symptom\Services\Settings\Create;
 use App\Symptom\Services\Settings\GetSettings;
+use App\Symptom\Services\Settings\Update;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -24,5 +25,13 @@ class SettingsController extends Controller
         ];
 
         return response()->json($createSettingsService->execute($attributes));
+    }
+
+    public function update(Request $request, Update $updateSettingsService): JsonResponse
+    {
+        $name  = $request->get('name');
+        $value = $request->get('value');
+
+        return response()->json($updateSettingsService->execute($name, $value));
     }
 }

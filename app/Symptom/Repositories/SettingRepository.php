@@ -11,9 +11,9 @@ class SettingRepository
         return Setting::all()->all();
     }
 
-    public function getByName(string $name): Setting
+    public function getByName(string $name): ?Setting
     {
-        return Setting::where('name', $name)->first();
+        return Setting::where('name', $name)->first() ?? null;
     }
 
     public function getValueByName(string $name): array
@@ -26,18 +26,17 @@ class SettingRepository
         return Setting::create($attributes);
     }
 
-    public function update($id, array $attributes): bool
+    public function update(string $name, array $value): bool
     {
-        $setting = Setting::find($id);
+        $setting = $this->getByName($name);
 
         if (!$setting) {
-            return false;
+            throw new \Exception('Не удалось найти настройку по названию');
         }
 
-        $setting->fill($attributes);
-        $setting->save();
+        $setting->setValue($value);
 
-        return $setting;
+        return $setting->save();
     }
 
     public function delete($id): bool
