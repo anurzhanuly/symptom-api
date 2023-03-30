@@ -24,7 +24,9 @@ class SymptomAI implements SymptomAiInterface
         $response = Http::post($url, ['answers' => $questionnaireResponse]);
 
         if ($response->successful()) {
-            return $response->body();
+            $response = json_decode($response->body(), true);
+
+            return json_decode($response, true);
         }
 
         return [];
