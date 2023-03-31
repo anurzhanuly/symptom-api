@@ -11,7 +11,7 @@ class SymptomAI implements SymptomAiInterface
      */
     protected const RECOMMENDATION_ROUTE = 'getRecommendations';
 
-    public function getRecommendations(array $questionnaireResponse, string $lang = 'ru'): string|array
+    public function getRecommendations(array $questionnaireResponse, string $lang = 'ru'): mixed
     {
         $url = sprintf(
             '%s/%s?key=%s&lang=%s',
@@ -24,9 +24,7 @@ class SymptomAI implements SymptomAiInterface
         $response = Http::post($url, ['answers' => $questionnaireResponse]);
 
         if ($response->successful()) {
-            $response = json_decode($response->body(), true);
-
-            return json_decode($response, true);
+            return $response->body();
         }
 
         return [];
