@@ -6,6 +6,9 @@ use App\Symptom\Entities\Recommendation;
 
 class RecommendationsRepository
 {
+    /**
+     * @return array<Recommendation>
+     */
     public function getAll(): array
     {
         return Recommendation::all()->all();
