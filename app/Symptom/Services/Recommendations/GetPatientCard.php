@@ -7,6 +7,8 @@ use App\Symptom\Repositories\SettingRepository;
 
 class GetPatientCard
 {
+    public const PATIENT_CARD_SETTINGS_NAME = 'patientCard';
+
     protected SettingRepository $settingRepository;
 
     protected QuestionnaireRepository $questionnaireRepository;
@@ -19,7 +21,7 @@ class GetPatientCard
 
     public function execute(array $userAnswers): array
     {
-        $requiredFields = $this->settingRepository->getValueByName('patientCard');
+        $requiredFields = $this->settingRepository->getValueByName(self::PATIENT_CARD_SETTINGS_NAME);
         $cardOptions = $this->questionnaireRepository->getLatestDisplayOptions()->getPatientCardOptions();
         $result = $this->getPatientCard($requiredFields, $cardOptions, $userAnswers);
 
@@ -30,31 +32,35 @@ class GetPatientCard
     {
         $result = [];
 
-        foreach ($requiredSections as $sectionName) {
-            $options = $cardOptions[$sectionName] ?? [];
-            $result[$sectionName] = [];
+        foreach ($requiredSections as $blockName => $sections) {
+            $result[$blockName] = [];
 
-            if (!$options) {
-                continue;
-            }
+            foreach ($sections as $sectionName) {
 
-            foreach ($options['questions'] as $questionName => $displayName) {
-                $answers = $userAnswers[$displayName] ?? [];
-                $answerOptions = $options['values'];
+                $options = $cardOptions[$sectionName] ?? [];
 
-                foreach ($answers as $answer) {
-                    if (empty($answerOptions[$questionName][$answer])) {
-                        $result[$sectionName][$displayName] = $answer;
+                if (!$options) {
+                    continue;
+                }
 
-                        continue;
+                foreach ($options['questions'] as $questionName => $displayName) {
+                    $answers = $userAnswers[$displayName] ?? [];
+                    $answerOptions = $options['values'];
+
+                    foreach ($answers as $answer) {
+                        if (empty($answerOptions[$questionName][$answer])) {
+                            $result[$blockName][$displayName] = $answer;
+
+                            continue;
+                        }
+
+                        $result[$blockName][$displayName] = $answerOptions[$questionName][$answer];
                     }
-
-                    $result[$sectionName][$displayName] = $answerOptions[$questionName][$answer];
                 }
             }
 
-            if (empty($result[$sectionName])) {
-                unset($result[$sectionName]);
+            if (empty($result[$blockName])) {
+                unset($result[$blockName]);
             }
         }
 
