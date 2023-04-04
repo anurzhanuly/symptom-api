@@ -2,12 +2,15 @@
 declare(strict_types=1);
 namespace App\Symptom\Services\Recommendations;
 
+use App\Symptom\Entities\Recommendation;
 use App\Symptom\Repositories\QuestionnaireRepository;
 use App\Symptom\Repositories\RecommendationsRepository;
 
 class GetRecommendations
 {
     protected RecommendationsRepository $recommendationsRepository;
+
+    private array $titleToNameMap = [];
 
     public function __construct(RecommendationsRepository $recommendationsRepository)
     {
@@ -16,56 +19,94 @@ class GetRecommendations
 
     public function execute(array $userAnswers): array
     {
-        // TODO: Удалить этот костыль после того как занесут админку
-        $titleToNameMap      = $this->DELETE_THIS_METHOD();
-        $result              = [];
-        $recommendations     = $this->recommendationsRepository->getAll();
-        $recommendationCases = [];
+        $result   = [];
+        $recommendations = $this->recommendationsRepository->getAll();
 
         foreach ($recommendations as $disease) {
-            foreach ($disease->getConditions() as $conditions) {
-                $conditionApplies = true;
-                $currentTestCase = -1;
+            $recommendationCases = $this->getApplicableTestCases($disease, $userAnswers);
 
-                foreach ($conditions as $condition) {
-                    $questionName = $titleToNameMap[$condition['questionName']] ?? '';
-                    $userAnswer = $userAnswers[$questionName] ?? [];
-                    $currentTestCase = $condition['testCase'];
-
-                    if (empty($userAnswer)) {
-                        $conditionApplies = false;
-
-                        break;
-                    }
-
-                    if ($condition['compare'] == 'exact') {
-                        $conditionApplies = array_pop($userAnswer) == array_pop($condition['value']);
-                    } else if ($condition['compare'] == 'less') {
-                        $conditionApplies = array_pop($userAnswer) < array_pop($condition['value']);
-                    } else if ($condition['compare'] == 'greater') {
-                        $conditionApplies = array_pop($userAnswer) > array_pop($condition['value']);
-                    } else if ($condition['compare'] == 'range') {
-                        $low = $condition['value'][0];
-                        $high = $condition['value'][1];
-                        $answer = array_pop($userAnswer);
-
-                        $conditionApplies = $answer >= $low && $answer <= $high;
-                    }
-                }
-
-                if ($conditionApplies) {
-                    $recommendationCases[] = $currentTestCase;
-                }
-            }
-
-            foreach ($recommendationCases as $id) {
-                if (isset($disease->getTests()[$id])) {
-                    $result[] = $disease->getTests()[$id];
+            foreach ($recommendationCases as $caseNumber) {
+                if (isset($disease->getTests()[$caseNumber])) {
+                    $result[] = $disease->getTests()[$caseNumber];
                 }
             }
         }
 
         return $result;
+    }
+
+    private function getApplicableTestCases(Recommendation $disease, array $userAnswers): array
+    {
+        $testCases = [];
+
+        foreach ($disease->getConditions() as $conditions) {
+            $conditionApplies = true;
+            $currentTestCase = null;
+
+            foreach ($conditions as $condition) {
+                $currentTestCase = $condition['testCase'];
+                $questionName = $this->getQuestionName($condition['questionName']);
+                $userAnswer = $this->getUserAnswer($userAnswers, $questionName);
+
+                if (empty($userAnswer)) {
+                    $conditionApplies = false;
+
+                    break;
+                }
+
+                if (!$this->conditionApplies($condition, $userAnswer)) {
+                    $conditionApplies = false;
+
+                    break;
+                }
+            }
+
+            if ($conditionApplies && !empty($conditions)) {
+                $testCases[] = $currentTestCase;
+            }
+        }
+
+        return $testCases;
+    }
+
+    private function getQuestionName(string $title): string
+    {
+        $titleToNameMap = $this->getTitleToNameMap();
+
+        return $titleToNameMap[$title] ?? '';
+    }
+
+    private function getUserAnswer(array $userAnswers, string $questionName): array
+    {
+        return $userAnswers[$questionName] ?? [];
+    }
+
+    private function conditionApplies(array $condition, array $userAnswer): bool
+    {
+        switch ($condition['compare']) {
+            case 'exact':
+                return end($userAnswer) == end($condition['value']);
+            case 'less':
+                return end($userAnswer) < end($condition['value']);
+            case 'greater':
+                return end($userAnswer) > end($condition['value']);
+            case 'range':
+                $answer = end($userAnswer);
+
+                return $answer >= $condition['value'][0] && $answer <= $condition['value'][1];
+            default:
+                return false;
+        }
+    }
+
+    private function getTitleToNameMap(): array
+    {
+        // TODO: Remove this method after adding admin panel
+        if (empty($this->titleToNameMap)) {
+            $this->titleToNameMap = $this->DELETE_THIS_METHOD();
+        }
+
+        return $this->titleToNameMap;
     }
 
     public function DELETE_THIS_METHOD():array
