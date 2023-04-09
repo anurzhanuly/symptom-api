@@ -24,8 +24,13 @@ class RecommendationsRepository
         return Recommendation::find($id);
     }
 
-    public function create($data): Recommendation
+    public function create(array $data): Recommendation
     {
         return Recommendation::create($data);
+    }
+
+    public function update(array $data): Recommendation
+    {
+        return Recommendation::updateOrCreate(['id' => $data['id']], $data);
     }
 }
