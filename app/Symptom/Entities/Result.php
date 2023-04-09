@@ -53,6 +53,26 @@ class Result extends Model
         return $this;
     }
 
+    public function getPatientAnswers(): array
+    {
+        return json_decode($this->getAttribute('patient_answers'));
+    }
+
+    public function getRecommendations(): array
+    {
+        return json_decode($this->getAttribute('recommendations'));
+    }
+
+    public function getSymptomAI(): array
+    {
+        return json_decode($this->getAttribute('symptom_ai'));
+    }
+
+    public function getPatientCard(): array
+    {
+        return json_decode($this->getAttribute('patient_card'));
+    }
+
     public function setPatientID(int $id): self
     {
         $this->setAttribute('patient_id', $id);

@@ -25,8 +25,11 @@ class Result extends TransformerAbstract
     public function transform(ResultEntity $result): array
     {
         return [
-            'id'       => $result->getId(),
-            'diagnose' => $result->getDiagnose(),
+            'id'              => $result->getId(),
+            'recommendations' => $result->getRecommendations(),
+            'patient_answers' => $result->getPatientAnswers(),
+            'symptom_ai'      => $result->getSymptomAI(),
+            'patient_card'    => $result->getPatientCard(),
         ];
     }
 
