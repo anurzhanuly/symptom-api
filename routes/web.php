@@ -71,3 +71,11 @@ Route::prefix('/results')->group(function () {
 // Технические роуты для форм
 Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
 Route::get('/specializations', [SpecializationsController::class, 'index'])->name('specialization.index');
+
+Route::prefix('/admin')->group(function () {
+   Route::prefix('/recommendations')->group(function () {
+      Route::get('/', [\App\Http\Controllers\Admin\RecommendationsController::class, 'index'])->name('admin.recommendations.index');
+      Route::get('/{id}', [\App\Http\Controllers\Admin\RecommendationsController::class, 'show'])->name('admin.recommendations.show');
+      Route::get('/{id}/update', [\App\Http\Controllers\Admin\RecommendationsController::class, 'update'])->name('admin.recommendations.index');
+   });
+});
