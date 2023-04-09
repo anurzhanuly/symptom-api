@@ -8,11 +8,10 @@ class ResultList extends TransformerAbstract
 {
     public string $type = 'result';
 
-    public function transform(Result $clinic): array
+    public function transform(Result $result): array
     {
         return [
-            'id'       => $clinic->getId(),
-            'diagnose' => $clinic->getDiagnose(),
+            'id' => $result->getId(),
         ];
     }
 }
