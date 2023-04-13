@@ -76,6 +76,7 @@ Route::prefix('/admin')->group(function () {
    Route::prefix('/recommendations')->group(function () {
       Route::get('/', [\App\Http\Controllers\Admin\RecommendationsController::class, 'index'])->name('admin.recommendations.index');
       Route::get('/{id}', [\App\Http\Controllers\Admin\RecommendationsController::class, 'show'])->name('admin.recommendations.show');
-      Route::get('/{id}/update', [\App\Http\Controllers\Admin\RecommendationsController::class, 'update'])->name('admin.recommendations.index');
+      Route::post('/{id}/update', [\App\Http\Controllers\Admin\RecommendationsController::class, 'update'])->name('admin.recommendations.update');
+      Route::post('/create', [\App\Http\Controllers\Admin\RecommendationsController::class, 'create'])->name('admin.recommendations.create');
    });
 });
