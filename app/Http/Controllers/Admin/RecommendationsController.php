@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 
 use \App\Http\Controllers\Controller;
 use App\Symptom\Services\Recommendations\CreateRecommendation;
+use App\Symptom\Services\Recommendations\DeleteRecommendation;
 use App\Symptom\Services\Recommendations\GetAllRecommendations;
 use App\Symptom\Services\Recommendations\GetRecommendationById;
 use App\Symptom\Services\Recommendations\UpdateRecommendation;
@@ -51,7 +52,24 @@ class RecommendationsController extends Controller
         int $id
     ): JsonResponse {
         return response()->json(
-            $this->item($updateRecommendationService->execute(['id' => $id, $request->get('data')]), $recommendationTransformer)
+            $this->item($updateRecommendationService->execute($id, $request->get('data')), $recommendationTransformer)
+        );
+    }
+
+    public function delete(Request $request, DeleteRecommendation $deleteRecommendationService, int $id)
+    {
+        if ($deleteRecommendationService->execute($id)) {
+            return response()->json(
+                [
+                    'message' => 'Данные удалены успешно',
+                ]
+            );
+        }
+
+        return response()->json(
+            [
+                'message' => 'Данные не были удалены',
+            ]
         );
     }
 }

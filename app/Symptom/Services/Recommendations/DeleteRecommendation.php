@@ -1,10 +1,9 @@
 <?php
 namespace App\Symptom\Services\Recommendations;
 
-use App\Symptom\Entities\Recommendation;
 use App\Symptom\Repositories\RecommendationsRepository;
 
-class UpdateRecommendation
+class DeleteRecommendation
 {
     protected RecommendationsRepository $recommendationsRepository;
 
@@ -13,8 +12,8 @@ class UpdateRecommendation
         $this->recommendationsRepository = $recommendationsRepository;
     }
 
-    public function execute(int $id, array $data): Recommendation
+    public function execute(int $id): bool
     {
-        return $this->recommendationsRepository->update($id, $data);
+        return $this->recommendationsRepository->delete($id);
     }
 }
