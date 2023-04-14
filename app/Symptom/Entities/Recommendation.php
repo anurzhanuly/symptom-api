@@ -18,9 +18,11 @@ class Recommendation extends Model
         return $this->id;
     }
 
-    public function setName(string $name)
+    public function setName(string $name): self
     {
         $this->setAttribute('name', $name);
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -33,9 +35,11 @@ class Recommendation extends Model
         return json_decode($this->getAttribute('tests'), true);
     }
 
-    public function setTests(array $tests)
+    public function setTests(array $tests): self
     {
         $this->setAttribute('tests', json_encode($tests));
+
+        return $this;
     }
 
     public function getConditions(): ?array
@@ -43,8 +47,10 @@ class Recommendation extends Model
         return json_decode($this->getAttribute('conditions'), true);
     }
 
-    public function setConditions(array $conditions)
+    public function setConditions(array $conditions): self
     {
         $this->setAttribute('conditions', json_encode($conditions));
+
+        return $this;
     }
 }
