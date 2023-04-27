@@ -102,11 +102,6 @@ class Result extends Model
         return $this->id;
     }
 
-    public function getDiagnose(): string
-    {
-        return $this->diagnose;
-    }
-
     public function getPatient(): Patient
     {
         return $this->patient()->get()->first();
