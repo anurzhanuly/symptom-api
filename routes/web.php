@@ -72,6 +72,11 @@ Route::prefix('/results')->group(function () {
 Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
 Route::get('/specializations', [SpecializationsController::class, 'index'])->name('specialization.index');
 
+Route::prefix('/clinics')->group(function () {
+    Route::get('/', [ClinicsController::class, 'index'])->name('clinics.index');
+    Route::get('/{id}', [ClinicsController::class, 'show'])->name('clinics.show');
+});
+
 Route::prefix('/admin')->group(function () {
    Route::prefix('/recommendations')->group(function () {
       Route::get('/', [\App\Http\Controllers\Admin\RecommendationsController::class, 'index'])->name('admin.recommendations.index');
