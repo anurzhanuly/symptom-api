@@ -24,7 +24,7 @@ class RecommendationsController extends Controller
         $response       = [];
         $patientAnswers = $request->get('answers');
         $doctorID       = $request->get('doctorID', 1);
-        $patientID      = $request->get('patientID', 2);
+        $patientID      = $request->get('patientID', 0);
         $lang           = $request->get('lang', 'ru');
 
         $response['recommendations'] = $getRecommendationsService->execute($patientAnswers);
