@@ -11,7 +11,13 @@ class Questionnaire extends Model
 
     protected $table = 'questionnaires';
 
-    protected $fillable = ['name', 'questionnaire', 'patient_card_options', 'is_main'];
+    protected $fillable = [
+        'name',
+        'questionnaire',
+        'patient_card_options',
+        'is_main',
+        'compressed_version',
+    ];
 
     public function getId(): ?int
     {
@@ -28,9 +34,9 @@ class Questionnaire extends Model
         return json_decode($this->getAttribute('questionnaire'), true);
     }
 
-    public function setQuestionnaire(array $questionnaire)
+    public function setQuestionnaire(string $questionnaire): void
     {
-        $this->setAttribute('questionnaire', json_encode($questionnaire));
+        $this->setAttribute('questionnaire', $questionnaire);
     }
 
     public function getPatientCardOptions(): ?array
@@ -56,5 +62,15 @@ class Questionnaire extends Model
     public function setIsMain(bool $isMain)
     {
         $this->setAttribute('is_main', $isMain);
+    }
+
+    public function getCompressedVersion(): string
+    {
+        return $this->getAttribute('compressed_version');
+    }
+
+    public function setCompressedVersion(string $compressedVersion): void
+    {
+        $this->setAttribute('compressed_version', $compressedVersion);
     }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\RecommendationsController;
 use App\Http\Controllers\ResultsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SpecializationsController;
+use App\Http\Controllers\v1\QuestionnairesController as QuestionnairesControllerV1;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,6 +63,11 @@ Route::prefix('/questionnaires')->group(function () {
         ->name('questionnaires.show');
     Route::get('/display-options', [QuestionnairesController::class, 'showDisplayOptions'])
         ->name('questionnaires.display-options');
+});
+
+Route::prefix('/v1/questionnaires')->group(function () {
+    Route::get('/latest', [QuestionnairesControllerV1::class, 'show'])
+        ->name('questionnaires.show');
 });
 
 Route::prefix('/results')->group(function () {

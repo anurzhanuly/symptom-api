@@ -12,9 +12,11 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "league/fractal": "^0.20.1",
-        "psr/log": "^1.1.0"
+        "psr/log": "^1.1.0",
+      "ext-zlib": "*"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.13",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",

@@ -12,10 +12,13 @@ class Create
         // Возникли проблемы под капотом при create(). Разбирался и не понял в чём дело.
         $model              = new Questionnaire();
         $patientCardOptions = $this->transform($questionnaire);
+        $jsonQuestionnaire  = json_encode($questionnaire);
+        $compressedVersion  = gzencode($jsonQuestionnaire);
 
         $model->setName($name);
         $model->setIsMain($isMain);
-        $model->setQuestionnaire($questionnaire);
+        $model->setQuestionnaire($jsonQuestionnaire);
+        $model->setCompressedVersion($compressedVersion);
 
         unset($questionnaire);
 
