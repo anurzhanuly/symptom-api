@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RecommendationsController extends Controller
 {
+    public const UNREGISTERED_USER = 0;
+
     public function getRecommendation(
         Request $request,
         SymptomAiInterface $symptomAi,
@@ -28,6 +30,10 @@ class RecommendationsController extends Controller
         $response['recommendations'] = $getRecommendationsService->execute($patientAnswers);
         $response['patientCard']     = $getPatientCardService->execute($patientAnswers);
         $response['symptomAi']       = $symptomAi->getRecommendations($patientAnswers, $lang);
+
+        if ($patientID === self::UNREGISTERED_USER) {
+            return response()->json($response);
+        }
 
         $saveResultsService->execute(
             new ResultsSaveCommand(
