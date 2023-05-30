@@ -18,6 +18,13 @@ class QuestionnaireRepository
             ->first();
     }
 
+    public function getLatestCompressed()
+    {
+        return Questionnaire::select('id', 'compressed_version')
+            ->latest('created_at')
+            ->first();
+    }
+
     public function getLatestDisplayOptions(): Questionnaire
     {
         return Questionnaire::select('patient_card_options')
