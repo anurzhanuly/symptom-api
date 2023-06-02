@@ -6,7 +6,7 @@ use App\Symptom\Services\Commands\ResultsSaveCommand;
 use App\Symptom\Services\Recommendations\GetPatientCard;
 use App\Symptom\Services\Recommendations\GetRecommendations;
 use App\Symptom\Services\Recommendations\Save;
-use App\Symptom\Utils\SymptomAI\SymptomAiInterface;
+use App\Symptom\Utils\Clients\SymptomAI\SymptomAiInterface;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
