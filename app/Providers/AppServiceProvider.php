@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use App\Symptom\Utils\SymptomAI\SymptomAiInterface;
-use App\Symptom\Utils\SymptomAI\SymptomAI;
+use App\Symptom\Utils\Clients\chatGPT\Client;
+use App\Symptom\Utils\Clients\SymptomAI\SymptomAI;
+use App\Symptom\Utils\Clients\SymptomAI\SymptomAiInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,7 +17,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(SymptomAiInterface::class, function () {
-            return new SymptomAI();
+            $symptomAiService = new Client();
+            return new SymptomAI($symptomAiService);
         });
     }
 

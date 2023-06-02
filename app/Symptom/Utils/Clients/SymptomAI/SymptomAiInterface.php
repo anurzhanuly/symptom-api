@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Symptom\Utils\SymptomAI;
+namespace App\Symptom\Utils\Clients\SymptomAI;
 
 interface SymptomAiInterface
 {

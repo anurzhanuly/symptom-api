@@ -6,14 +6,15 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "ext-zlib": "*",
         "doctrine/dbal": "^3.6",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "7.5.1",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "league/fractal": "^0.20.1",
-        "psr/log": "^1.1.0",
-      "ext-zlib": "*"
+        "openai-php/laravel": "^0.5.2",
+        "psr/log": "^1.1.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",
@@ -62,7 +63,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
         }
     },
     "minimum-stability": "stable",
