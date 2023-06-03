@@ -7,6 +7,8 @@ class City extends Model
 {
     protected $table = 'cities';
 
+    protected $fillable = ['name'];
+
     public function getId(): int
     {
         return $this->id;

@@ -33,7 +33,11 @@ class Doctor extends Model
 
     public function getMiddleName(): ?string
     {
-        return $this->middle_name;
+        return $this->middle_name ?? '';
+    }
+
+    public function getFullName(): string{
+        return sprintf('%s %s %s', $this->last_name, $this->first_name, $this->middle_name);
     }
 
     public function getSpecialization(): ?string

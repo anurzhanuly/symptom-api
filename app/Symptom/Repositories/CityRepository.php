@@ -9,4 +9,9 @@ class CityRepository
     {
         return City::all()->all();
     }
+
+    public function create($data): City
+    {
+        return City::create($data);
+    }
 }
