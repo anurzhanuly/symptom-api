@@ -36,6 +36,7 @@ class SymptomAI implements SymptomAiInterface
                                     }
                                     Rename keys medicalSummary to 1.0, DoctorType to 1.1, Urgency to 1.2,
                                     DifferentialDiagnosis to 2.0, MedicalTest to 3.0.
+                                    Return minified json. RFC 8259.
                                     EOT;
 
     /**
@@ -55,6 +56,12 @@ class SymptomAI implements SymptomAiInterface
 
         $result = $this->chatGPT->sendRequest($prompt);
 
-        return $result["choices"][0]["text"];
+        if (empty($result["choices"][0]["text"])) {
+            return null;
+        }
+
+        $result = json_decode($result["choices"][0]["text"], true);
+
+        return $result;
     }
 }

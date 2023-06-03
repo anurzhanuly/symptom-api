@@ -14,6 +14,8 @@ class RecommendationsController extends Controller
 {
     public const UNREGISTERED_USER = 0;
 
+    public const NO_DOCTOR = 0;
+
     public function getRecommendation(
         Request $request,
         SymptomAiInterface $symptomAi,
@@ -23,8 +25,8 @@ class RecommendationsController extends Controller
     ): JsonResponse {
         $response       = [];
         $patientAnswers = $request->get('answers');
-        $doctorID       = $request->get('doctorID', 1);
-        $patientID      = $request->get('patientID', 0);
+        $doctorID       = $request->get('doctorID', self::NO_DOCTOR);
+        $patientID      = $request->get('patientID', self::UNREGISTERED_USER);
         $lang           = $request->get('lang', 'ru');
 
         $response['recommendations'] = $getRecommendationsService->execute($patientAnswers);
