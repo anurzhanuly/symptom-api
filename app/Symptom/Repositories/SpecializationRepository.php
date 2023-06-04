@@ -9,4 +9,9 @@ class SpecializationRepository
     {
         return Specialization::all()->all();
     }
+
+    public function create(array $data): Specialization
+    {
+        return Specialization::create($data);
+    }
 }

@@ -33,15 +33,32 @@ Route::prefix('admin')->group(function () {
         ])->name('clinic.create');
     });
 
+    Route::prefix('specialization')->group(function () {
+        Route::get('/', [
+            Admin\SpecializationController::class,
+            'index'
+        ])->name('specialization.index');
+
+        Route::post('/create', [
+            Admin\SpecializationController::class,
+            'create'
+        ])->name('specialization.create');
+    });
+
     Route::prefix('doctor')->group(function () {
         Route::get('/', [
             Admin\DoctorController::class,
             'index'
         ])->name('doctor.index');
 
-        Route::post('/create', [
+        Route::get('/create', [
             Admin\DoctorController::class,
             'create'
         ])->name('doctor.create');
+
+        Route::post('/create', [
+            Admin\DoctorController::class,
+            'handleCreate'
+        ])->name('doctor.handleCreate');
     });
 });

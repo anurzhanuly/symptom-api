@@ -15,6 +15,7 @@
                     <th scope="col">Доктор</th>
                     <th scope="col">Специализация</th>
                     <th scope="col">Опыт</th>
+                    <th scope="col">Клиники</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -27,6 +28,7 @@
                     <td>{{ $doctor->getFullName() }}</td>
                     <td>{{ $doctor->getSpecialization() }}</td>
                     <td>{{ $doctor->getExperienceText() }}</td>
+                    <td>{{ $doctor->getClinicsText() }}</td>
                 </tr>
                 @endforeach
                 </tbody>

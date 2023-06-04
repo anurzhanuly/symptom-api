@@ -55,10 +55,25 @@ class Doctor extends Model
         $result = [];
 
         $this->doctorClinics()->get()->map(function ($collection) use (&$result) {
-            $result = array_merge($result, $collection->clinic()->first());
+            $result[] = $collection->clinic()->first();
         });
 
         return $result;
+    }
+
+    public function getClinicsText(): string
+    {
+        $clinicsText = '';
+
+        foreach ($this->getClinics() as $i => $clinic) {
+           if ($i === 0) {
+               $clinicsText = $clinic->getName();
+           } else {
+               $clinicsText = $clinicsText . ', ' . $clinic->getName();
+           }
+        }
+
+        return $clinicsText;
     }
 
     public function getResults(): array

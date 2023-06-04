@@ -7,13 +7,13 @@ class DoctorCreateCommand
 
     private string $lastName;
 
-    private string $middleName;
+    private ?string $middleName;
 
     private int $specializationId;
 
     private int $experience;
 
-    public function __construct(string $firstName, string $lastName, string $middleName, int $specializationId, int $experience)
+    public function __construct(string $firstName, string $lastName, ?string $middleName, int $specializationId, int $experience)
     {
         $this->firstName        = $firstName;
         $this->lastName         = $lastName;
