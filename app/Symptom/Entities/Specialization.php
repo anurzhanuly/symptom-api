@@ -7,6 +7,8 @@ class Specialization extends Model
 {
     protected $table = 'specializations';
 
+    protected $fillable = ['name'];
+
     public function getId(): int
     {
         return $this->id;

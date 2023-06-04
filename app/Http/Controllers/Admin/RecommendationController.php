@@ -12,7 +12,7 @@ use App\Symptom\Transformers\RecommendationsList;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class RecommendationsController extends Controller
+class RecommendationController extends Controller
 {
     public function index(
         Request $request,

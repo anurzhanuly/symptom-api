@@ -8,6 +8,8 @@ class DoctorClinic extends Model
 {
     protected $table = 'doctor_clinics';
 
+    protected $fillable = ['doctor_id', 'clinic_id'];
+
     public function doctor(): HasOne
     {
         return $this->hasOne(Doctor::class, 'id', 'doctor_id');

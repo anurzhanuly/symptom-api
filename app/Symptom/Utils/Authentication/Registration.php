@@ -2,6 +2,7 @@
 namespace App\Symptom\Utils\Authentication;
 
 use App\Symptom\Entities\AccessToken;
+use App\Symptom\Entities\DoctorClinic;
 use App\Symptom\Entities\User;
 use App\Symptom\Services\Commands\DoctorCreateCommand;
 use App\Symptom\Services\Commands\PatientCreateCommand;
@@ -9,6 +10,7 @@ use App\Symptom\Services\Doctors\Create as DoctorCreate;
 use App\Symptom\Services\Patients\Create as PatientCreate;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -32,51 +34,63 @@ class Registration
 
     public function register(Request $request): string
     {
+
         if ($this->isInvalidData($request)) {
             throw new \Exception('Переданы неверные параметры регистрации');
         }
 
         $input = $request->all();
 
-        if ($input['type'] === self::USER_TYPE_DOCTOR) {
-            $user = $this->doctorCreateService->execute(
-                new DoctorCreateCommand(
-                    $input['first_name'],
-                    $input['last_name'],
-                    $input['middle_name'],
-                    $input['specialization_id'],
-                    $input['experience']
-                )
-            );
-        }
+        $tokenEntity = DB::transaction(function () use ($input) {
+            if ($input['type'] === self::USER_TYPE_DOCTOR) {
+                $user = $this->doctorCreateService->execute(
+                    new DoctorCreateCommand(
+                        $input['first_name'],
+                        $input['last_name'],
+                        $input['middle_name'],
+                        $input['specialization_id'],
+                        $input['experience']
+                    )
+                );
 
-        if ($input['type'] === self::USER_TYPE_PATIENT) {
-            $user = $this->patientCreateService->execute(
-                new PatientCreateCommand(
-                    $input['first_name'],
-                    $input['last_name'],
-                    $input['phone'],
-                )
-            );
-        }
+                if (!empty($input['clinic_id'])) {
+                    foreach ($input['clinic_id'] as $clinic_id) {
+                        DoctorClinic::create(['clinic_id' => $clinic_id, 'doctor_id' => $user->getId()]);
+                    }
+                }
+            }
 
-        $accessData = [
-            'email'      => $input['email'],
-            'password'   => bcrypt($input['password']),
-            'c_password' => $input['c_password'],
-            'type'       => $input['type'],
-            'cabinet_id' => $user->getId(),
-            'name'       => sprintf('%s %s', $user->getFirstName(), $user->getLastName()),
-        ];
+            if ($input['type'] === self::USER_TYPE_PATIENT) {
+                $user = $this->patientCreateService->execute(
+                    new PatientCreateCommand(
+                        $input['first_name'],
+                        $input['last_name'],
+                        $input['phone'],
+                    )
+                );
+            }
 
-        $userEntity  = User::create($accessData);
-        $tokenData   = [
-            'tokenable_id' => $userEntity->getId(),
-            'name'         => $userEntity->getName(),
-            'token'        => Hash::make($input['password']),
-            'expires_at'   => Carbon::now()->addHours(2),
-        ];
-        $tokenEntity = AccessToken::create($tokenData);
+            $accessData = [
+                'email'      => $input['email'],
+                'password'   => bcrypt($input['password']),
+                'c_password' => $input['c_password'],
+                'type'       => $input['type'],
+                'cabinet_id' => $user->getId(),
+                'name'       => sprintf('%s %s', $user->getFirstName(), $user->getLastName()),
+                'phone'      => $input['phone'],
+            ];
+
+            $userEntity  = User::create($accessData);
+            $tokenData   = [
+                'tokenable_id' => $userEntity->getId(),
+                'name'         => $userEntity->getName(),
+                'token'        => Hash::make($input['password']),
+                'expires_at'   => Carbon::now()->addHours(2),
+            ];
+
+            return AccessToken::create($tokenData);
+        });
+
 
         return $tokenEntity->getToken();
     }

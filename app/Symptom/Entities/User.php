@@ -14,6 +14,7 @@ class User extends Model
         'password',
         'type',
         'cabinet_id',
+        'phone',
     ];
 
     public function getId(): int
