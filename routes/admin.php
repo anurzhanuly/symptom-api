@@ -4,12 +4,12 @@ use App\Http\Controllers\Admin;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group(function () {
-    Route::get('/', [
+    Route::middleware('authAdmin')->get('/', [
         Admin\IndexController::class,
         'index',
     ])->name('admin.index');
 
-    Route::prefix('cities')->group(function () {
+    Route::prefix('cities')->middleware('authAdmin')->group(function () {
         Route::get('/', [
             Admin\CityController::class,
             'index'
@@ -21,7 +21,7 @@ Route::prefix('admin')->group(function () {
         ])->name('city.create');
     });
 
-    Route::prefix('clinic')->group(function () {
+    Route::prefix('clinic')->middleware('authAdmin')->group(function () {
         Route::get('/', [
             Admin\ClinicController::class,
             'index'
@@ -33,7 +33,7 @@ Route::prefix('admin')->group(function () {
         ])->name('clinic.create');
     });
 
-    Route::prefix('specialization')->group(function () {
+    Route::prefix('specialization')->middleware('authAdmin')->group(function () {
         Route::get('/', [
             Admin\SpecializationController::class,
             'index'
@@ -45,7 +45,7 @@ Route::prefix('admin')->group(function () {
         ])->name('specialization.create');
     });
 
-    Route::prefix('doctor')->group(function () {
+    Route::prefix('doctor')->middleware('authAdmin')->group(function () {
         Route::get('/', [
             Admin\DoctorController::class,
             'index'
@@ -61,4 +61,14 @@ Route::prefix('admin')->group(function () {
             'handleCreate'
         ])->name('doctor.handleCreate');
     });
+
+    Route::get('/auth', [
+        Admin\AuthController::class,
+        'index'
+    ])->name('auth.index');
+
+    Route::post('/auth', [
+        Admin\AuthController::class,
+        'handle'
+    ])->name('auth.handle');
 });
