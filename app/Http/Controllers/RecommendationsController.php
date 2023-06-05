@@ -31,7 +31,7 @@ class RecommendationsController extends Controller
 
         $response['recommendations'] = $getRecommendationsService->execute($patientAnswers);
         $response['patientCard']     = $getPatientCardService->execute($patientAnswers);
-        $response['symptomAi']       = $symptomAi->getRecommendations($patientAnswers, $lang);
+//        $response['symptomAi']       = $symptomAi->getRecommendations($patientAnswers, $lang);
 
         if ($patientID === self::UNREGISTERED_USER) {
             return response()->json($response);
