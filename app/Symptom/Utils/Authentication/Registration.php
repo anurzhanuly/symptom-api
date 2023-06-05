@@ -85,7 +85,7 @@ class Registration
                 'tokenable_id' => $userEntity->getId(),
                 'name'         => $userEntity->getName(),
                 'token'        => Hash::make($input['password']),
-                'expires_at'   => Carbon::now()->addHours(2),
+                'expires_at'   => Carbon::now()->addHours(8),
             ];
 
             return AccessToken::create($tokenData);

@@ -44,7 +44,7 @@ class Authorization
             'tokenable_id' => $user->getId(),
             'name'         => $user->getName(),
             'token'        => bin2hex(random_bytes(32)),
-            'expires_at'   => Carbon::now()->addHours(2),
+            'expires_at'   => Carbon::now()->addHours(8),
         ];
         $tokenEntity = AccessToken::create($tokenData);
 
