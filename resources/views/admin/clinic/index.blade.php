@@ -15,6 +15,7 @@
                     <th scope="col">Название</th>
                     <th scope="col">Город</th>
                     <th scope="col">Адрес</th>
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -27,6 +28,7 @@
                     <td>{{ $clinic->getName() }}</td>
                     <td>{{ $clinic->getCity() }}</td>
                     <td>{{ $clinic->getAddress() }}</td>
+                    <td><a href="{{ route('clinic.delete', ['id' => $clinic->getId()]) }}" class="btn btn-danger">Удалить</a></td>
                 </tr>
                 @endforeach
                 </tbody>

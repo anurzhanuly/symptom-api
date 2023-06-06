@@ -31,6 +31,11 @@ Route::prefix('admin')->group(function () {
             Admin\ClinicController::class,
             'create'
         ])->name('clinic.create');
+
+        Route::get('/delete', [
+            Admin\ClinicController::class,
+            'delete'
+        ])->name('clinic.delete');
     });
 
     Route::prefix('specialization')->middleware('authAdmin')->group(function () {
@@ -60,6 +65,11 @@ Route::prefix('admin')->group(function () {
             Admin\DoctorController::class,
             'handleCreate'
         ])->name('doctor.handleCreate');
+
+        Route::get('/delete', [
+            Admin\DoctorController::class,
+            'delete'
+        ])->name('doctor.delete');
     });
 
     Route::get('/auth', [

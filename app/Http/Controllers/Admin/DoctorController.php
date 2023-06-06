@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Symptom\Services\Clinics\GetClinics;
+use App\Symptom\Services\Doctors\Delete;
+use App\Symptom\Services\Doctors\GetDoctorById;
 use App\Symptom\Services\Doctors\GetDoctors;
 use App\Symptom\Services\GetSpecializations;
 use App\Symptom\Utils\Authentication\Registration;
@@ -37,5 +39,16 @@ class DoctorController extends Controller
         }
 
         return redirect()->away('/admin/doctor')->with('message', 'Доктор добавлен');
+    }
+
+    public function delete(Request $request, GetDoctorById $getDoctorById, Delete $deleteDoctor)
+    {
+        $doctor = $getDoctorById->execute((int) $request->get('id'));
+
+        if ($deleteDoctor->execute($doctor)) {
+            return redirect()->back()->with('message', 'Доктор ' . $doctor->getFullName() . ' удален');
+        }
+
+        return redirect()->back()->with('message', 'Доктор ' . $doctor->getFullName() . 'не удален');
     }
 }

@@ -16,6 +16,7 @@
                     <th scope="col">Специализация</th>
                     <th scope="col">Опыт</th>
                     <th scope="col">Клиники</th>
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -29,6 +30,7 @@
                     <td>{{ $doctor->getSpecialization() }}</td>
                     <td>{{ $doctor->getExperienceText() }}</td>
                     <td>{{ $doctor->getClinicsText() }}</td>
+                    <td><a href="{{ route('doctor.delete', ['id' => $doctor->getId()]) }}" class="btn btn-danger">Удалить</a></td>
                 </tr>
                 @endforeach
                 </tbody>
