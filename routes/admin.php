@@ -48,6 +48,11 @@ Route::prefix('admin')->group(function () {
             Admin\SpecializationController::class,
             'create'
         ])->name('specialization.create');
+
+        Route::get('/delete', [
+            Admin\SpecializationController::class,
+            'delete'
+        ])->name('specialization.delete');
     });
 
     Route::prefix('doctor')->middleware('authAdmin')->group(function () {
