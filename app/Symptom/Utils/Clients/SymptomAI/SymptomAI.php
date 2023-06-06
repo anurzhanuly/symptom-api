@@ -2,8 +2,9 @@
 
 namespace App\Symptom\Utils\Clients\SymptomAI;
 
-use App\Symptom\Utils\Clients\chatGPT\Client;
 use App\Symptom\Utils\Clients\chatGPT\ClientInterface;
+use App\Symptom\Utils\Clients\Translator\Translator;
+use App\Symptom\Utils\Clients\Translator\TranslatorInterface as TranslatorInterface;
 
 class SymptomAI implements SymptomAiInterface
 {
@@ -23,8 +24,8 @@ class SymptomAI implements SymptomAiInterface
                                         "medicalSummary": "",
                                         "triage": [
                                             {
-                                                "level": "",
-                                                "doctor": ""
+                                                "urgency": "",
+                                                "doctorType": ""
                                             }
                                         ],
                                         "differentialDiagnosis": [],
@@ -34,34 +35,43 @@ class SymptomAI implements SymptomAiInterface
                                             "imagingStudies": []
                                         }
                                     }
-                                    Rename keys medicalSummary to 1.0, DoctorType to 1.1, Urgency to 1.2,
-                                    DifferentialDiagnosis to 2.0, MedicalTest to 3.0.
+                                    Rename keys medicalSummary to 1, triage to 2, Urgency to 2.1, doctor type to 2.2,
+                                    DifferentialDiagnosis to 3, complaints to 3, medicalTests to 4, laboratoryTests to 4.1,
+                                    imagingStudies to 4.2.
                                     Return minified json. RFC 8259.
+                                    Only english.
                                     EOT;
 
     /**
-     * @var Client|ClientInterface $chatGPT
+     * @var ClientInterface $chatGPT
      */
-    private Client $chatGPT;
+    private ClientInterface $chatGPT;
 
-    public function __construct(ClientInterface $chatGPT)
+    /**
+     * @var TranslatorInterface $translator
+     */
+    private TranslatorInterface $translator;
+
+    public function __construct(ClientInterface $chatGPT, TranslatorInterface $translator)
     {
         $this->chatGPT = $chatGPT;
+        $this->translator = $translator;
     }
 
     public function getRecommendations(array $questionnaireResponse, string $lang = 'ru'): mixed
     {
         $userAnswer = json_encode($questionnaireResponse);
         $prompt = $userAnswer . PHP_EOL . self::QUESTION_TEMPLATE;
+        $response = $this->chatGPT->sendRequest($prompt);
 
-        $result = $this->chatGPT->sendRequest($prompt);
-
-        if (empty($result["choices"][0]["text"])) {
-            return null;
+        if (!isset($response["choices"])) {
+            return '';
         }
 
-        $result = json_decode($result["choices"][0]["text"], true);
+        $chatGptRecommendations = $response["choices"][0]["text"];
 
-        return $result;
+        $translatedVersion = $this->translator->translate($chatGptRecommendations, Translator::ENGLISH_LANGUAGE, $lang);
+
+        return json_decode($translatedVersion, true);
     }
 }

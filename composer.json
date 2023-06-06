@@ -14,7 +14,8 @@
         "laravel/tinker": "^2.7",
         "league/fractal": "^0.20.1",
         "openai-php/laravel": "^0.5.2",
-        "psr/log": "^1.1.0"
+        "psr/log": "^1.1.0",
+        "statickidz/php-google-translate-free": "^1.2"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",

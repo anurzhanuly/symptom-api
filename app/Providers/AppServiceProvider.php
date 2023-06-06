@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
-use App\Symptom\Utils\Clients\chatGPT\Client;
+use App\Symptom\Utils\Clients\chatGPT\Client as ChatGptClient;
+use App\Symptom\Utils\Clients\chatGPT\ClientInterface as ChatGptInterface;
 use App\Symptom\Utils\Clients\SymptomAI\SymptomAI;
 use App\Symptom\Utils\Clients\SymptomAI\SymptomAiInterface;
+use App\Symptom\Utils\Clients\Translator\Translator;
+use App\Symptom\Utils\Clients\Translator\TranslatorInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,8 +20,18 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(SymptomAiInterface::class, function () {
-            $symptomAiService = new Client();
-            return new SymptomAI($symptomAiService);
+            $symptomAiService = $this->app->make(ChatGptInterface::class);
+            $translatorService = $this->app->make(TranslatorInterface::class);
+
+            return new SymptomAI($symptomAiService, $translatorService);
+        });
+
+        $this->app->bind(ChatGptInterface::class, function () {
+            return new ChatGptClient();
+        });
+
+        $this->app->bind(TranslatorInterface::class, function () {
+            return new Translator();
         });
     }
 
