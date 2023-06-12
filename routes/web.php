@@ -82,13 +82,3 @@ Route::prefix('/clinics')->group(function () {
     Route::get('/', [ClinicsController::class, 'index'])->name('clinics.index');
     Route::get('/{id}', [ClinicsController::class, 'show'])->name('clinics.show');
 });
-
-Route::prefix('/admin')->group(function () {
-   Route::prefix('/recommendations')->group(function () {
-      Route::get('/', [\App\Http\Controllers\Admin\RecommendationController::class, 'index'])->name('admin.recommendations.index');
-      Route::get('/{id}', [\App\Http\Controllers\Admin\RecommendationController::class, 'show'])->name('admin.recommendations.show');
-      Route::post('/{id}/update', [\App\Http\Controllers\Admin\RecommendationController::class, 'update'])->name('admin.recommendations.update');
-      Route::post('/{id}/delete', [\App\Http\Controllers\Admin\RecommendationController::class, 'delete'])->name('admin.recommendations.delete');
-      Route::post('/create', [\App\Http\Controllers\Admin\RecommendationController::class, 'create'])->name('admin.recommendations.create');
-   });
-});
