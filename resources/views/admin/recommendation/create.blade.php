@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid px-5 py-4 vh-100">
-    <h1>Добавить доктора</h1>
+    <h1>Добавить рекомендацию</h1>
     @if ($message)
     <p class="col-md-12 alert alert-success mt-3">{{ $message }}</p>
     @endif
