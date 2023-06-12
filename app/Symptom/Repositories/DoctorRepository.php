@@ -33,10 +33,15 @@ class DoctorRepository
     public function delete(Doctor $doctor): bool
     {
         $doctorClinics = $doctor->doctorClinics()->get()->all();
+        $doctorResults = $doctor->getResults();
 
-        return DB::transaction(function () use ($doctor, $doctorClinics) {
+        return DB::transaction(function () use ($doctor, $doctorClinics, $doctorResults) {
             foreach ($doctorClinics as $doctorClinic) {
                 $doctorClinic->delete();
+            }
+
+            foreach ($doctorResults as $doctorResult) {
+                $doctorResult->update(['doctor_id' => null]);
             }
 
             if ($doctor->delete()) {
