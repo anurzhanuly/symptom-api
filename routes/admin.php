@@ -77,6 +77,35 @@ Route::prefix('admin')->group(function () {
         ])->name('doctor.delete');
     });
 
+    Route::prefix('recommendation')->middleware('authAdmin')->group(function () {
+        Route::get('/', [
+            Admin\RecommendationController::class,
+            'index'
+        ])->name('recommendation.index');
+
+        Route::get('/create', [
+            Admin\RecommendationController::class,
+            'create'
+        ])->name('recommendation.create');
+
+        Route::post('/create', [
+            Admin\RecommendationController::class,
+            'handleCreate'
+        ])->name('recommendation.handleCreate');
+
+        Route::post(
+            '/update',
+            [
+                Admin\RecommendationController::class,
+                'update'
+            ])->name('recommendation.update');
+
+        Route::get('/delete', [
+            Admin\RecommendationController::class,
+            'delete'
+        ])->name('recommendation.delete');
+    });
+
     Route::get('/auth', [
         Admin\AuthController::class,
         'index'
