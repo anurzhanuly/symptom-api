@@ -42,7 +42,13 @@ class Doctor extends Model
 
     public function getSpecialization(): ?string
     {
-        return $this->hasOne(Specialization::class, 'id', 'specialization_id')->first()->getName();
+        $specialization = $this->hasOne(Specialization::class, 'id', 'specialization_id')->first();
+
+        if ($specialization instanceof Specialization) {
+            return $specialization->getName();
+        }
+
+        return null;
     }
 
     public function getExperienceText(): string
