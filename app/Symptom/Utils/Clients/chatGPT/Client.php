@@ -22,7 +22,7 @@ class Client implements ClientInterface
             return $this->client->completions()->create([
                 'model' => config('openai.model'),
                 'prompt' => $prompt,
-                'temperature' => 0.3,
+                'temperature' => 0.1,
                 'max_tokens' => 500,
             ]);
         } catch (\Exception $e) {
