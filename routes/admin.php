@@ -75,7 +75,7 @@ Route::prefix('admin')->group(function () {
             Admin\DoctorController::class,
             'delete'
         ])->name('doctor.delete');
-    });
+    })
 
     Route::prefix('recommendation')->middleware('authAdmin')->group(function () {
         Route::get('/', [
