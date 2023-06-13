@@ -2,6 +2,8 @@
 namespace App\Symptom\Repositories;
 
 use App\Symptom\Entities\Doctor;
+use App\Symptom\Entities\User;
+use Illuminate\Support\Facades\DB;
 
 class DoctorRepository
 {
@@ -26,5 +28,29 @@ class DoctorRepository
         Doctor::find($id)->update($data);
 
         return Doctor::find($id);
+    }
+
+    public function delete(Doctor $doctor): bool
+    {
+        $doctorClinics = $doctor->doctorClinics()->get()->all();
+        $doctorResults = $doctor->getResults();
+
+        return DB::transaction(function () use ($doctor, $doctorClinics, $doctorResults) {
+            foreach ($doctorClinics as $doctorClinic) {
+                $doctorClinic->delete();
+            }
+
+            foreach ($doctorResults as $doctorResult) {
+                $doctorResult->update(['doctor_id' => null]);
+            }
+
+            if ($doctor->delete()) {
+                User::query()->where('cabinet_id', '=', $doctor->getId())->delete();
+
+                return true;
+            }
+
+            return false;
+        });
     }
 }

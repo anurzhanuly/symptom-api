@@ -2,6 +2,8 @@
 namespace App\Symptom\Repositories;
 
 use App\Symptom\Entities\Clinic;
+use App\Symptom\Entities\DoctorClinic;
+use Illuminate\Support\Facades\DB;
 
 class ClinicRepository
 {
@@ -26,5 +28,22 @@ class ClinicRepository
         Clinic::find($id)->update($data);
 
         return Clinic::find($id);
+    }
+
+    public function delete(Clinic $clinic): bool
+    {
+        $clinicDoctors = $clinic->doctorClinics()->get()->all();
+
+        return DB::transaction(function () use ($clinic, $clinicDoctors) {
+            foreach ($clinicDoctors as $clinicDoctor) {
+                $clinicDoctor->delete();
+            }
+
+            if ($clinic->delete()) {
+                return true;
+            }
+
+            return false;
+        });
     }
 }

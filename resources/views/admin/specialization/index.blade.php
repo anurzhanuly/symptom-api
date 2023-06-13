@@ -13,6 +13,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Название</th>
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -23,6 +24,7 @@
                 <tr>
                     <th scope="row">{{ $specialization->getId() }}</th>
                     <td>{{ $specialization->getName() }}</td>
+                    <td><a href="{{ route('specialization.delete', ['id' => $specialization->getId()]) }}" class="btn btn-danger">Удалить</a></td>
                 </tr>
                 @endforeach
                 </tbody>
