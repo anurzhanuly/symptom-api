@@ -33,7 +33,7 @@ class RecommendationsController extends Controller
         $response['patientCard']     = $getPatientCardService->execute($patientAnswers);
 
         try {
-            $response['symptomAi']       = $symptomAi->getRecommendations($patientAnswers, $lang);
+            $response['symptomAi'] = $symptomAi->getRecommendations($patientAnswers, $lang);
         } catch (\Exception $e) {
             $response['symptomAi'] = [];
         }
