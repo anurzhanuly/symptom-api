@@ -13,6 +13,8 @@ class Save
 
     public const WEIGHT_QUESTION_NAME = 'Вес:';
 
+    public const BMI_QUESTION_NAME = 'ИМТ:';
+
     protected ResultRepository $resultsRepository;
 
     public function __construct(ResultRepository $resultsRepository)
@@ -28,9 +30,9 @@ class Save
             $result->setDoctorID($command->getDoctorID());
         }
 
-        $userAnswers         = $command->getPatientAnswers();
-        $bmi                 = $this->getUserBMI($userAnswers);
-        $userAnswers['ИМТ:'] = $bmi;
+        $userAnswers                          = $command->getPatientAnswers();
+        $bmi                                  = $this->getUserBMI($userAnswers);
+        $userAnswers[self::BMI_QUESTION_NAME] = $bmi;
 
         $result->setPatientID($command->getPatientID())
             ->setRecommendations($command->getRecommendations())
