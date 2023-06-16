@@ -9,6 +9,12 @@ use App\Symptom\Services\Commands\ResultsSaveCommand;
 
 class Save
 {
+    public const HEIGHT_QUESTION_NAME = 'Рост:';
+
+    public const WEIGHT_QUESTION_NAME = 'Вес:';
+
+    public const BMI_QUESTION_NAME = 'ИМТ:';
+
     protected ResultRepository $resultsRepository;
 
     public function __construct(ResultRepository $resultsRepository)
@@ -24,12 +30,30 @@ class Save
             $result->setDoctorID($command->getDoctorID());
         }
 
+        $userAnswers                          = $command->getPatientAnswers();
+        $bmi                                  = $this->getUserBMI($userAnswers);
+        $userAnswers[self::BMI_QUESTION_NAME] = $bmi;
+
         $result->setPatientID($command->getPatientID())
             ->setRecommendations($command->getRecommendations())
             ->setSymptomAI($command->getSymptomAIRecommendations())
             ->setPatientCard($command->getPatientCard())
-            ->setPatientAnswers($command->getPatientAnswers());
+            ->setPatientAnswers($userAnswers);
 
         $result->save();
+    }
+
+    private function getUserBMI(array $userAnswers): float
+    {
+        $height = $userAnswers[self::HEIGHT_QUESTION_NAME] ?? 0;
+        $weight = $userAnswers[self::WEIGHT_QUESTION_NAME] ?? 0;
+
+        if (empty($height) || empty($weight)) {
+            return 0;
+        }
+
+        $height = $height / 100;
+
+        return $weight / pow($height, 2);
     }
 }
