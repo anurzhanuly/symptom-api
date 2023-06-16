@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Symptom\Services\Recommendations\GetPatientCard;
 use App\Symptom\Utils\Clients\chatGPT\Client as ChatGptClient;
 use App\Symptom\Utils\Clients\chatGPT\ClientInterface as ChatGptInterface;
 use App\Symptom\Utils\Clients\SymptomAI\SymptomAI;
@@ -22,8 +23,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(SymptomAiInterface::class, function () {
             $symptomAiService = $this->app->make(ChatGptInterface::class);
             $translatorService = $this->app->make(TranslatorInterface::class);
+            $getPatientCardService = $this->app->make(GetPatientCard::class);
 
-            return new SymptomAI($symptomAiService, $translatorService);
+            return new SymptomAI($symptomAiService, $translatorService, $getPatientCardService);
         });
 
         $this->app->bind(ChatGptInterface::class, function () {

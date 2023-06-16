@@ -8,6 +8,8 @@ class Translator implements TranslatorInterface
 {
     public const ENGLISH_LANGUAGE = 'en';
 
+    public const RUSSIAN_LANGUAGE = 'ru';
+
     private GoogleTranslate $translator;
 
     public function __construct()
