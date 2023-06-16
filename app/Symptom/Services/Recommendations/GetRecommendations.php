@@ -45,7 +45,7 @@ class GetRecommendations
 
             foreach ($conditions as $condition) {
                 $currentTestCase = $condition['testCase'];
-                $questionName = $this->getQuestionName($condition['questionName']);
+                $questionName = $condition['questionName'];
                 $userAnswer = $this->getUserAnswer($userAnswers, $questionName);
 
                 if (empty($userAnswer)) {
@@ -69,13 +69,6 @@ class GetRecommendations
         return $testCases;
     }
 
-    private function getQuestionName(string $title): string
-    {
-        $titleToNameMap = $this->getTitleToNameMap();
-
-        return $titleToNameMap[$title] ?? '';
-    }
-
     private function getUserAnswer(array $userAnswers, string $questionName): array
     {
         return $userAnswers[$questionName] ?? [];
@@ -97,28 +90,5 @@ class GetRecommendations
             default:
                 return false;
         }
-    }
-
-    private function getTitleToNameMap(): array
-    {
-        // TODO: Remove this method after adding admin panel
-        if (empty($this->titleToNameMap)) {
-            $this->titleToNameMap = $this->DELETE_THIS_METHOD();
-        }
-
-        return $this->titleToNameMap;
-    }
-
-    public function DELETE_THIS_METHOD():array
-    {
-        $questionnaireRepo = new QuestionnaireRepository();
-        $patientCardOptions = $questionnaireRepo->getLatestDisplayOptions()->getPatientCardOptions();
-        $result = [];
-
-        foreach ($patientCardOptions as $options) {
-            $result = array_merge($result, $options['questions']);
-        }
-
-        return $result;
     }
 }
