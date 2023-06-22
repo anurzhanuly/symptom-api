@@ -1,14 +1,9 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Symptom\Services\Commands\DoctorCreateCommand;
 use App\Symptom\Services\Commands\DoctorUpdateCommand;
-use App\Symptom\Services\Doctors\Create;
-use App\Symptom\Services\Doctors\GetDoctorById;
-use App\Symptom\Services\Doctors\GetDoctors;
 use App\Symptom\Services\Doctors\Update;
 use App\Symptom\Transformers\Doctor;
-use App\Symptom\Transformers\DoctorForClinic;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 

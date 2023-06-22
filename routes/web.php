@@ -10,6 +10,7 @@ use App\Http\Controllers\RecommendationsController;
 use App\Http\Controllers\ResultsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SpecializationsController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\v1\QuestionnairesController as QuestionnairesControllerV1;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,10 @@ Route::middleware('authByToken')->group(function() {
     Route::prefix('/doctors')->group(function () {
         Route::get('/cabinet', [DoctorsController::class, 'show'])->name('doctors.show');
         Route::post('/update', [DoctorsController::class, 'update'])->name('doctors.update');
+    });
+
+    Route::prefix('/users')->group(function () {
+        Route::post('/update', [UsersController::class, 'update'])->name('users.update');
     });
 
     Route::prefix('/patients')->group(function () {
