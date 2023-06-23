@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Symptom\Services\Commands\UserUpdateCommand;
 use App\Symptom\Services\Users\Update;
 use App\Symptom\Transformers\User;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UsersController extends Controller

@@ -6,7 +6,7 @@ class UserUpdateCommand
 {
     private int $id;
 
-    private ?int $password;
+    private ?string $password;
 
     public function __construct(
         int $id,
