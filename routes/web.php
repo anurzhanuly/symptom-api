@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\RecommendationController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\ClinicsController;
 use App\Http\Controllers\DoctorsController;
@@ -86,4 +87,12 @@ Route::get('/specializations', [SpecializationsController::class, 'index'])->nam
 Route::prefix('/clinics')->group(function () {
     Route::get('/', [ClinicsController::class, 'index'])->name('clinics.index');
     Route::get('/{id}', [ClinicsController::class, 'show'])->name('clinics.show');
+});
+
+Route::middleware('authByToken')->prefix('/admin')->group(function () {
+    Route::prefix('/recommendations')->group(function () {
+        Route::get('/', [RecommendationController::class, 'index'])->name('admin.recommendations.index');
+        Route::get('/{id}', [RecommendationController::class, 'show'])->name('admin.recommendations.show');
+        Route::get('/{id}/update', [RecommendationController::class, 'update'])->name('admin.recommendations.index');
+    });
 });
