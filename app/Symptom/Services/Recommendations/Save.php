@@ -45,15 +45,17 @@ class Save
 
     private function getUserBMI(array $userAnswers): float
     {
-        $height = $userAnswers[self::HEIGHT_QUESTION_NAME] ?? 0;
-        $weight = $userAnswers[self::WEIGHT_QUESTION_NAME] ?? 0;
+        $height = $userAnswers[self::HEIGHT_QUESTION_NAME][0] ?? 0;
+        $weight = $userAnswers[self::WEIGHT_QUESTION_NAME][0] ?? 0;
 
         if (empty($height) || empty($weight)) {
             return 0;
         }
 
         $height = $height / 100;
+        $bmi = $weight / pow($height, 2);
+        $bmi = number_format($bmi, 2, '.', '');
 
-        return $weight / pow($height, 2);
+        return $bmi;
     }
 }
