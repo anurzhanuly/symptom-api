@@ -15,6 +15,8 @@ class AuthByToken
 
     protected const USER_TYPE_PATIENT = 'patient';
 
+    protected const USER_TYPE_ADMIN = 'admin';
+
     protected GetDoctorById $getDoctorByIdService;
 
     protected GetPatientById $getPatientByIdService;
@@ -29,7 +31,8 @@ class AuthByToken
 
     public function handle($request, Closure $next)
     {
-        $access = AccessToken::where('token', $request->header(self::AUTH_TOKEN))->first();
+        $isAdmin = false;
+        $access  = AccessToken::where('token', $request->header(self::AUTH_TOKEN))->first();
 
         if (!$access instanceof AccessToken || $access->isExpired()) {
             throw new \Exception('Пользователь не авторизован');
@@ -45,9 +48,15 @@ class AuthByToken
             $user = $this->getPatientByIdService->execute($authentication->getCabinetId());
         }
 
+        if ($authentication->getType() === self::USER_TYPE_ADMIN) {
+            $isAdmin = true;
+            $user    = null;
+        }
+
         $request->request->add([
             'authentication' => $authentication,
             'user'           => $user,
+            'isAdmin'        => $isAdmin,
         ]);
 
         return $next($request);
