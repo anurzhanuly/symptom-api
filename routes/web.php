@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\RecommendationController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\ClinicsController;
+use App\Http\Controllers\DoctorNpsController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\QuestionnairesController;
@@ -95,4 +96,8 @@ Route::middleware('authByToken')->prefix('/admin')->group(function () {
         Route::get('/{id}', [RecommendationController::class, 'show'])->name('admin.recommendations.show');
         Route::get('/{id}/update', [RecommendationController::class, 'update'])->name('admin.recommendations.index');
     });
+});
+
+Route::prefix('nps')->group(function () {
+    Route::post('/create', [DoctorNpsController::class, 'create'])->name('nps.create');
 });

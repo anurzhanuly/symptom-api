@@ -106,6 +106,18 @@ Route::prefix('admin')->group(function () {
         ])->name('recommendation.delete');
     });
 
+    Route::prefix('nps')->middleware('authAdmin')->group(function () {
+        Route::get('/', [
+            Admin\NpsController::class,
+            'index'
+        ])->name('nps.index');
+
+        Route::get('/check', [
+            Admin\NpsController::class,
+            'check'
+        ])->name('nps.check');
+    });
+
     Route::get('/auth', [
         Admin\AuthController::class,
         'index'

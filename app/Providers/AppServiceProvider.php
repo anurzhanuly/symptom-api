@@ -9,6 +9,7 @@ use App\Symptom\Utils\Clients\SymptomAI\SymptomAI;
 use App\Symptom\Utils\Clients\SymptomAI\SymptomAiInterface;
 use App\Symptom\Utils\Clients\Translator\Translator;
 use App\Symptom\Utils\Clients\Translator\TranslatorInterface;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -44,6 +45,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Paginator::useBootstrap();
     }
 }
