@@ -89,10 +89,12 @@ Route::prefix('/clinics')->group(function () {
     Route::get('/{id}', [ClinicsController::class, 'show'])->name('clinics.show');
 });
 
-Route::middleware('authByToken')->prefix('/admin')->group(function () {
+Route::prefix('/admin')->group(function () {
     Route::prefix('/recommendations')->group(function () {
         Route::get('/', [RecommendationController::class, 'index'])->name('admin.recommendations.index');
         Route::get('/{id}', [RecommendationController::class, 'show'])->name('admin.recommendations.show');
-        Route::get('/{id}/update', [RecommendationController::class, 'update'])->name('admin.recommendations.index');
+        Route::post('/{id}/update', [RecommendationController::class, 'update'])->name('admin.recommendations.index');
+        Route::post('/{id}/delete', [RecommendationController::class, 'delete'])->name('admin.recommendations.delete');
+        Route::post('/create', [RecommendationController::class, 'create'])->name('admin.recommendations.create');
     });
 });
