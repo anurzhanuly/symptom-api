@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\RecommendationController;
 use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\ClinicsController;
+use App\Http\Controllers\DoctorNpsController;
 use App\Http\Controllers\DoctorsController;
 use App\Http\Controllers\PatientsController;
 use App\Http\Controllers\QuestionnairesController;
@@ -97,4 +98,8 @@ Route::prefix('/admin')->group(function () {
         Route::post('/{id}/delete', [RecommendationController::class, 'delete'])->name('admin.recommendations.delete');
         Route::post('/create', [RecommendationController::class, 'create'])->name('admin.recommendations.create');
     });
+});
+
+Route::prefix('nps')->group(function () {
+    Route::post('/create', [DoctorNpsController::class, 'create'])->name('nps.create');
 });

@@ -49,6 +49,9 @@
                                     <li><a class="dropdown-item" href="{{ route('recommendation.create') }}">Добавить рекомендацию</a></li>
                                 </ul>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('nps.index') }}">Запросы на обратную связь</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
