@@ -84,6 +84,7 @@ Route::prefix('/results')->group(function () {
 // Технические роуты для форм
 Route::get('/cities', [CitiesController::class, 'index'])->name('cities.index');
 Route::get('/specializations', [SpecializationsController::class, 'index'])->name('specialization.index');
+Route::get('/doctors', [DoctorsController::class, 'index'])->name('doctors.index');
 
 Route::prefix('/clinics')->group(function () {
     Route::get('/', [ClinicsController::class, 'index'])->name('clinics.index');
