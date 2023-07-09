@@ -10,8 +10,6 @@ class GetRecommendations
 {
     protected RecommendationsRepository $recommendationsRepository;
 
-    private array $titleToNameMap = [];
-
     public function __construct(RecommendationsRepository $recommendationsRepository)
     {
         $this->recommendationsRepository = $recommendationsRepository;
@@ -76,19 +74,32 @@ class GetRecommendations
 
     private function conditionApplies(array $condition, array $userAnswer): bool
     {
-        switch ($condition['compare']) {
-            case 'exact':
-                return end($userAnswer) == end($condition['value']);
-            case 'less':
-                return end($userAnswer) < end($condition['value']);
-            case 'greater':
-                return end($userAnswer) > end($condition['value']);
-            case 'range':
-                $answer = end($userAnswer);
+        foreach ($condition['value'] as $value) {
+            $currentChoice = $value;
 
-                return $answer >= $condition['value'][0] && $answer <= $condition['value'][1];
-            default:
-                return false;
+            if (isset($value['text'])) {
+                $currentChoice = $value['text'];
+            }
+
+            switch ($condition['compare']) {
+                case 'except':
+                    return end($userAnswer) != $currentChoice;
+                case 'exact':
+                case 'optional':
+                    return end($userAnswer) == $currentChoice;
+                case 'less':
+                    return end($userAnswer) < $currentChoice;
+                case 'greater':
+                    return end($userAnswer) > $currentChoice;
+                case 'range':
+                    $answer = end($userAnswer);
+
+                    return $answer >= $condition['value'][0] && $answer <= $condition['value'][1];
+                default:
+                    return false;
+            }
         }
+
+        return false;
     }
 }
