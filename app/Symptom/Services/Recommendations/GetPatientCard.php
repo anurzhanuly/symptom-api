@@ -9,6 +9,14 @@ class GetPatientCard
 {
     public const PATIENT_CARD_SETTINGS_NAME = 'patientCard';
 
+    private const PATIENT_CARD_FIELDS_ORDER = [
+        'Общая информация',
+        'Жалобы',
+        'История заболевания',
+        'История жизни',
+        'Обзор органов систем',
+    ];
+
     protected SettingRepository $settingRepository;
 
     protected QuestionnaireRepository $questionnaireRepository;
@@ -24,6 +32,7 @@ class GetPatientCard
         $requiredFields = $this->settingRepository->getValueByName(self::PATIENT_CARD_SETTINGS_NAME);
         $cardOptions = $this->questionnaireRepository->getLatestDisplayOptions()->getPatientCardOptions();
         $result = $this->getPatientCard($requiredFields, $cardOptions, $userAnswers);
+        $result = $this->sortPatientCard($result);
 
         return $result;
     }
@@ -65,5 +74,20 @@ class GetPatientCard
         }
 
         return $result;
+    }
+
+    private function sortPatientCard(array $result): array
+    {
+        $sortedResult = [];
+
+        foreach (self::PATIENT_CARD_FIELDS_ORDER as $sectionName) {
+            if (empty($result[$sectionName])) {
+                continue;
+            }
+
+            $sortedResult[$sectionName] = $result[$sectionName];
+        }
+
+        return $sortedResult;
     }
 }
