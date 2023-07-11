@@ -3,7 +3,6 @@ declare(strict_types=1);
 namespace App\Symptom\Services\Recommendations;
 
 use App\Symptom\Entities\Recommendation;
-use App\Symptom\Repositories\QuestionnaireRepository;
 use App\Symptom\Repositories\RecommendationsRepository;
 
 class GetRecommendations
@@ -82,10 +81,11 @@ class GetRecommendations
             }
 
             switch ($condition['compare']) {
+                case 'optional':
+                    return true;
                 case 'except':
                     return end($userAnswer) != $currentChoice;
                 case 'exact':
-                case 'optional':
                     return end($userAnswer) == $currentChoice;
                 case 'less':
                     return end($userAnswer) < $currentChoice;
