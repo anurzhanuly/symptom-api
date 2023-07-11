@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Symptom\Services\Commands\DoctorUpdateCommand;
+use App\Symptom\Services\Doctors\GetDoctors;
 use App\Symptom\Services\Doctors\Update;
 use App\Symptom\Transformers\Doctor;
 use Illuminate\Http\Request;
@@ -9,6 +10,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DoctorsController extends Controller
 {
+    public function index(
+        Request $request,
+        GetDoctors $getDoctors,
+        Doctor $doctorTransformer
+    ): JsonResponse {
+        return response()->json(
+            $this->collection($getDoctors->execute(), $doctorTransformer)
+        );
+    }
+
     public function show(
         Request $request,
         Doctor $doctorTransformer
