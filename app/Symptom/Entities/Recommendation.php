@@ -30,14 +30,14 @@ class Recommendation extends Model
         return $this->name;
     }
 
-    public function getTests(): ?array
+    public function getTests()
     {
-        return json_decode($this->getAttribute('tests'), true);
+        return json_decode($this->getAttribute('tests'));
     }
 
     public function setTests(array $tests): self
     {
-        $this->setAttribute('tests', json_encode($tests));
+        $this->setAttribute('tests', json_encode($tests, JSON_FORCE_OBJECT));
 
         return $this;
     }

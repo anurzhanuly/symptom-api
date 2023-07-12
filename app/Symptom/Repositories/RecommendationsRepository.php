@@ -26,22 +26,28 @@ class RecommendationsRepository
 
     public function create(array $data): Recommendation
     {
-        $recomendation = new Recommendation();
+        $recommendation = new Recommendation();
 
-        $recomendation
+        $recommendation
             ->setName($data['name'])
             ->setTests($data['tests'])
             ->setConditions($data['conditions'])
             ->save();
 
-        return $recomendation;
+        return $recommendation;
     }
 
     public function update(int $id, array $data): Recommendation
     {
-        Recommendation::find($id)->update($data);
+        $recommendation = Recommendation::find($id);
 
-        return Recommendation::find($id);
+        $recommendation
+            ->setName($data['name'])
+            ->setTests($data['tests'])
+            ->setConditions($data['conditions'])
+            ->save();
+
+        return $recommendation;
     }
 
     public function delete(int $id): bool

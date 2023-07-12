@@ -91,7 +91,7 @@ Route::prefix('/clinics')->group(function () {
     Route::get('/{id}', [ClinicsController::class, 'show'])->name('clinics.show');
 });
 
-Route::prefix('/admin')->group(function () {
+Route::middleware('authByToken')->prefix('/admin')->group(function () {
     Route::prefix('/recommendations')->group(function () {
         Route::get('/', [RecommendationController::class, 'index'])->name('admin.recommendations.index');
         Route::get('/{id}', [RecommendationController::class, 'show'])->name('admin.recommendations.show');
