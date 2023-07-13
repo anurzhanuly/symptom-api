@@ -3,14 +3,11 @@ declare(strict_types=1);
 namespace App\Symptom\Services\Recommendations;
 
 use App\Symptom\Entities\Recommendation;
-use App\Symptom\Repositories\QuestionnaireRepository;
 use App\Symptom\Repositories\RecommendationsRepository;
 
 class GetRecommendations
 {
     protected RecommendationsRepository $recommendationsRepository;
-
-    private array $titleToNameMap = [];
 
     public function __construct(RecommendationsRepository $recommendationsRepository)
     {
@@ -76,19 +73,33 @@ class GetRecommendations
 
     private function conditionApplies(array $condition, array $userAnswer): bool
     {
-        switch ($condition['compare']) {
-            case 'exact':
-                return end($userAnswer) == end($condition['value']);
-            case 'less':
-                return end($userAnswer) < end($condition['value']);
-            case 'greater':
-                return end($userAnswer) > end($condition['value']);
-            case 'range':
-                $answer = end($userAnswer);
+        foreach ($condition['value'] as $value) {
+            $currentChoice = $value;
 
-                return $answer >= $condition['value'][0] && $answer <= $condition['value'][1];
-            default:
-                return false;
+            if (isset($value['text'])) {
+                $currentChoice = $value['text'];
+            }
+
+            switch ($condition['compare']) {
+                case 'optional':
+                    return true;
+                case 'except':
+                    return end($userAnswer) != $currentChoice;
+                case 'exact':
+                    return end($userAnswer) == $currentChoice;
+                case 'less':
+                    return end($userAnswer) < $currentChoice;
+                case 'greater':
+                    return end($userAnswer) > $currentChoice;
+                case 'range':
+                    $answer = end($userAnswer);
+
+                    return $answer >= $condition['value'][0] && $answer <= $condition['value'][1];
+                default:
+                    return false;
+            }
         }
+
+        return false;
     }
 }
