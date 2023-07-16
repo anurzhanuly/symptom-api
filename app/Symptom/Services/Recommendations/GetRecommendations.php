@@ -23,8 +23,8 @@ class GetRecommendations
             $recommendationCases = $this->getApplicableTestCases($disease, $userAnswers);
 
             foreach ($recommendationCases as $caseNumber) {
-                if (isset($disease->getTests()[$caseNumber])) {
-                    $result = array_merge($result, $disease->getTests()[$caseNumber]);
+                if (isset($disease->getTestsAsArray()[$caseNumber])) {
+                    $result = array_merge($result, $disease->getTestsAsArray()[$caseNumber]);
                 }
             }
         }
