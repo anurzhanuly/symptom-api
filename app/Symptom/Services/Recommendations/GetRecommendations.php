@@ -24,7 +24,7 @@ class GetRecommendations
 
             foreach ($recommendationCases as $caseNumber) {
                 if (isset($disease->getTestsAsArray()[$caseNumber])) {
-                    $result = array_merge($result, $disease->getTestsAsArray()[$caseNumber]);
+                    $result = array_merge($result, [$disease->getTestsAsArray()[$caseNumber]]);
                 }
             }
         }
