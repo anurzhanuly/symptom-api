@@ -94,6 +94,10 @@ class GetRecommendations
                 case 'range':
                     $answer = end($userAnswer);
 
+                    if (count($condition['value']) == 1) {
+                        $condition['value'] = explode('-', $condition['value'][0]);
+                    }
+
                     return $answer >= $condition['value'][0] && $answer <= $condition['value'][1];
                 default:
                     return false;
