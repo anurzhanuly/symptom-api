@@ -37,6 +37,6 @@ class Patient extends Model
 
     public function results(): HasMany
     {
-        return $this->hasMany(Result::class, 'patient_id', 'id');
+        return $this->hasMany(Result::class, 'patient_id', 'id')->latest();
     }
 }

@@ -21,11 +21,14 @@ class ResultList extends TransformerAbstract
     {
         Carbon::setLocale('ru');
 
-        $date = Carbon::make($result->created_at);
+        $date    = Carbon::make($result->created_at);
+        $patient = $result->getPatient();
 
         return sprintf(
-            '%s %s %s %s',
+            '%s %s %s. %s %s %s',
             'Обращение от',
+            $patient->getLastName(),
+            mb_substr($patient->getFirstName(), 0, 1),
             $date->day,
             $date->getTranslatedMonthName('Do MMMM'),
             $date->year
