@@ -94,6 +94,6 @@ class Doctor extends Model
 
     public function results(): HasMany
     {
-        return $this->hasMany(Result::class, 'doctor_id', 'id');
+        return $this->hasMany(Result::class, 'doctor_id', 'id')->latest();
     }
 }
