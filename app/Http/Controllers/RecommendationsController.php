@@ -8,6 +8,7 @@ use App\Symptom\Services\Recommendations\GetRecommendations;
 use App\Symptom\Services\Recommendations\Save;
 use App\Symptom\Utils\Clients\SymptomAI\SymptomAiInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class RecommendationsController extends Controller
@@ -35,6 +36,8 @@ class RecommendationsController extends Controller
         try {
             $response['symptomAi'] = $symptomAi->getRecommendations($patientAnswers, $lang);
         } catch (\Exception $e) {
+            Log::log('error', $e->getMessage());
+
             $response['symptomAi'] = [];
         }
 

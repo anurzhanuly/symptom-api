@@ -26,15 +26,12 @@ class Save
     {
         $result = new Result();
 
-        if ($command->getDoctorID() != RecommendationsController::NO_DOCTOR) {
-            $result->setDoctorID($command->getDoctorID());
-        }
-
         $userAnswers                          = $command->getPatientAnswers();
         $bmi                                  = $this->getUserBMI($userAnswers);
         $userAnswers[self::BMI_QUESTION_NAME] = $bmi;
 
         $result->setPatientID($command->getPatientID())
+            ->setDoctorID($command->getDoctorID())
             ->setRecommendations($command->getRecommendations())
             ->setSymptomAI($command->getSymptomAIRecommendations())
             ->setPatientCard($command->getPatientCard())

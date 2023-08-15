@@ -23,19 +23,41 @@ class SymptomAI implements SymptomAiInterface
                                                 "doctorType": ""
                                             }
                                         ],
-                                        "differentialDiagnosis": [],
+                                        "differentialDiagnosis": "",
                                         "complaints": "",
                                         "medicalTests": {
                                             "laboratoryTests": [],
                                             "imagingStudies": []
                                         }
                                     }
-                                    Rename keys medicalSummary to 1, triage to 2, Urgency to 2.1, doctor type to 2.2,
-                                    DifferentialDiagnosis to 3, complaints to 3, medicalTests to 4, laboratoryTests to 4.1,
-                                    imagingStudies to 4.2.
                                     Return minified json. RFC 8259.
                                     Only english.
                                     EOT;
+
+    const MEDICAL_SUMMARY_KEY = 'medicalSummary';
+    const TRIAGE_KEY = 'triage';
+    const URGENT_KEY = 'urgency';
+    const DOCTOR_TYPE_KEY = 'doctorType';
+    const DIFFERENTIAL_DIAGNOSIS_KEY = 'differentialDiagnosis';
+    const COMPLAINTS_KEY = 'complaints';
+    const MEDICAL_TESTS_KEY = 'medicalTests';
+    const LABORATORY_TESTS_KEY = 'laboratoryTests';
+    const IMAGING_STUDIES_KEY = 'imagingStudies';
+
+    const TRANSLATED_KEYS = [
+        self::MEDICAL_SUMMARY_KEY => 'Обзор медицинской истории пациента',
+        self::TRIAGE_KEY          => 'Рекомендации по визиту к врачу',
+        self::URGENT_KEY          => 'Срочность',
+        self::DOCTOR_TYPE_KEY     => 'Доктор',
+        self::DIFFERENTIAL_DIAGNOSIS_KEY => 'Дифференциальный диагноз',
+        self::COMPLAINTS_KEY             => 'Жалобы',
+        self::MEDICAL_TESTS_KEY          => 'Медицинские тесты',
+        self::LABORATORY_TESTS_KEY       => 'Лабораторные тесты',
+        self::IMAGING_STUDIES_KEY        => 'Исследования',
+    ];
+
+    const TITLE_KEYWORD = 'title';
+    const RECOMMENDATION_KEYWORD = 'recommendation';
 
     /**
      * @var ClientInterface $chatGPT
@@ -79,10 +101,9 @@ class SymptomAI implements SymptomAiInterface
         }
 
         $chatGptRecommendations = $response["choices"][0]["text"];
+        $chatGptRecommendations = $this->convertArray(json_decode($chatGptRecommendations, true), $lang);
 
-        $translatedVersion = $this->translator->translate($chatGptRecommendations, Translator::ENGLISH_LANGUAGE, $lang);
-
-        return json_decode($translatedVersion, true);
+        return $chatGptRecommendations;
     }
 
     private function transformPatientCardResultToString(array $patientCard): string
@@ -98,5 +119,69 @@ class SymptomAI implements SymptomAiInterface
         }
 
         return $result;
+    }
+
+    private function convertArray($inputArray, $lang = 'ru'): array
+    {
+        $outputArray = [];
+
+        if (isset($inputArray[self::MEDICAL_SUMMARY_KEY]) && $inputArray[self::MEDICAL_SUMMARY_KEY] !== '') {
+            $value = $this->translator->translate($inputArray[self::MEDICAL_SUMMARY_KEY], Translator::ENGLISH_LANGUAGE, $lang);
+            $outputArray[] = [self::TITLE_KEYWORD => self::TRANSLATED_KEYS[self::MEDICAL_SUMMARY_KEY], self::RECOMMENDATION_KEYWORD => $value];
+        }
+
+        if (isset($inputArray[self::TRIAGE_KEY])) {
+            $doctors = '';
+
+            foreach ($inputArray[self::TRIAGE_KEY] as $triage) {
+                $doctors .= $triage[self::URGENT_KEY] . ' - ' . $triage[self::DOCTOR_TYPE_KEY] . "\n";
+            }
+
+            $doctors = $this->translator->translate($doctors, Translator::ENGLISH_LANGUAGE, $lang);
+
+            $triage        = [self::TITLE_KEYWORD => self::TRANSLATED_KEYS[self::TRIAGE_KEY], self::RECOMMENDATION_KEYWORD => $doctors];
+            $outputArray[] = $triage;
+        }
+
+        if (isset($inputArray[self::DIFFERENTIAL_DIAGNOSIS_KEY])) {
+            $value = $inputArray[self::DIFFERENTIAL_DIAGNOSIS_KEY] ?? '';
+
+            if ($value !== '') {
+                $value = $this->translator->translate($value, Translator::ENGLISH_LANGUAGE, $lang);
+                $differentialDiagnosis = [self::TITLE_KEYWORD => self::TRANSLATED_KEYS[self::DIFFERENTIAL_DIAGNOSIS_KEY], self::RECOMMENDATION_KEYWORD => $value];
+                $outputArray[] = $differentialDiagnosis;
+            }
+        }
+
+        if (isset($inputArray[self::COMPLAINTS_KEY])) {
+            if ($inputArray[self::COMPLAINTS_KEY] !== '') {
+                $complaints    = [self::TITLE_KEYWORD => self::TRANSLATED_KEYS[self::COMPLAINTS_KEY], self::RECOMMENDATION_KEYWORD => $inputArray[self::COMPLAINTS_KEY]];
+                $outputArray[] = $complaints;
+            }
+        }
+
+        if (isset($inputArray[self::MEDICAL_TESTS_KEY])) {
+            if (isset($inputArray[self::MEDICAL_TESTS_KEY][self::LABORATORY_TESTS_KEY])) {
+                $value = $inputArray[self::MEDICAL_TESTS_KEY][self::LABORATORY_TESTS_KEY] ?? [];
+
+                if (count($value)) {
+                    $value = $this->translator->translate(implode("\n", $value), Translator::ENGLISH_LANGUAGE, $lang);
+                    $laboratoryTests = [self::TITLE_KEYWORD => self::TRANSLATED_KEYS[self::LABORATORY_TESTS_KEY], self::RECOMMENDATION_KEYWORD => $value];
+                    $outputArray[]   = $laboratoryTests;
+                }
+            }
+
+            if (isset($inputArray[self::MEDICAL_TESTS_KEY][self::IMAGING_STUDIES_KEY])) {
+                $value = $inputArray[self::MEDICAL_TESTS_KEY][self::IMAGING_STUDIES_KEY] ?? [];
+
+                if (count($value)) {
+                    $value = $this->translator->translate(implode("\n", $value), Translator::ENGLISH_LANGUAGE, $lang);
+                    $imagingStudies = [self::TITLE_KEYWORD => self::TRANSLATED_KEYS[self::IMAGING_STUDIES_KEY], self::RECOMMENDATION_KEYWORD => $value];
+                    $outputArray[]  = $imagingStudies;
+                }
+            }
+        }
+
+        return $outputArray;
     }
 }
