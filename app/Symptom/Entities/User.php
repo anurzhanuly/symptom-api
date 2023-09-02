@@ -1,7 +1,9 @@
 <?php
 namespace App\Symptom\Entities;
 
+use App\Chat\Entities\Chat;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Model
 {
@@ -40,5 +42,10 @@ class User extends Model
     public function getCabinetId(): int
     {
         return $this->cabinet_id;
+    }
+
+    public function chats(): BelongsToMany
+    {
+        return $this->belongsToMany(Chat::class);
     }
 }
