@@ -57,13 +57,19 @@ class GetPatientCard
                     $answerOptions = $options['values'];
 
                     foreach ($answers as $answer) {
-                        if (empty($answerOptions[$questionName][$answer])) {
+                        $flippedArray = array_flip($answerOptions[$questionName]);
+
+                        if (!isset($flippedArray[$answer])) {
                             $result[$blockName][$displayName] = $answer;
 
                             continue;
                         }
 
-                        $result[$blockName][$displayName] = $answerOptions[$questionName][$answer];
+                        if (!isset($result[$blockName][$displayName])) {
+                            $result[$blockName][$displayName] = '';
+                        }
+
+                        $result[$blockName][$displayName] .= $flippedArray[$answer] . "\n";
                     }
                 }
             }
