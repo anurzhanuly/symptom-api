@@ -41,36 +41,45 @@ class GetPatientCard
     {
         $result = [];
 
-        foreach ($requiredSections as $blockName => $sections) {
-            $result[$blockName] = [];
+        foreach ($userAnswers as $questionName => $userAnswer) {
+            foreach (self::PATIENT_CARD_FIELDS_ORDER as $blockName) {
+                $sections = $requiredSections[$blockName] ?? [];
+                $result[$blockName] = [];
 
-            foreach ($sections as $sectionName) {
+                foreach ($sections as $sectionName) {
+                    $options = $cardOptions[$sectionName] ?? [];
 
-                $options = $cardOptions[$sectionName] ?? [];
+                    if (!$options) {
+                        continue;
+                    }
 
-                if (!$options) {
-                    continue;
-                }
+                    foreach ($options['questions'] as $questionName => $displayName) {
+                        $answers = $userAnswers[$displayName] ?? [];
+                        $answerOptions = $options['values'];
 
-                foreach ($options['questions'] as $questionName => $displayName) {
-                    $answers = $userAnswers[$displayName] ?? [];
-                    $answerOptions = $options['values'];
+                        foreach ($answers as $answer) {
+                            $flippedArray = array_flip($answerOptions[$questionName]);
 
-                    foreach ($answers as $answer) {
-                        if (empty($answerOptions[$questionName][$answer])) {
-                            $result[$blockName][$displayName] = $answer;
+                            if (!isset($flippedArray[$answer])) {
+                                $result[$blockName][$displayName] = $answer;
 
-                            continue;
+                                continue;
+                            }
+
+                            if (!isset($result[$blockName][$displayName])) {
+                                $result[$blockName][$displayName] = '';
+                            }
+
+                            if (!empty($result[$blockName][$displayName])) {
+                                $result[$blockName][$displayName] .= ', ';
+                            }
+
+                            $result[$blockName][$displayName] .= $flippedArray[$answer];
                         }
-
-                        $result[$blockName][$displayName] = $answerOptions[$questionName][$answer];
                     }
                 }
             }
 
-            if (empty($result[$blockName])) {
-                unset($result[$blockName]);
-            }
         }
 
         return $result;
