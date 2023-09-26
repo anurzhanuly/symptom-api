@@ -3,6 +3,7 @@ namespace App\Symptom\Utils\Authentication;
 
 use App\Symptom\Entities\AccessToken;
 use App\Symptom\Entities\User;
+use App\Symptom\Repositories\UserRepository;
 use App\Symptom\Services\Doctors\GetDoctorById;
 use App\Symptom\Services\Patients\GetPatientById;
 use Carbon\Carbon;
@@ -16,12 +17,16 @@ class Authorization
 
     protected GetPatientById $getPatientByIdService;
 
+    protected UserRepository $userRepository;
+
     public function __construct(
         GetDoctorById $getDoctorByIdService,
-        GetPatientById $getPatientByIdService
+        GetPatientById $getPatientByIdService,
+        UserRepository $userRepository
     ) {
         $this->getDoctorByIdService  = $getDoctorByIdService;
         $this->getPatientByIdService = $getPatientByIdService;
+        $this->userRepository        = $userRepository;
     }
 
     public function authorize(Request $request): string
@@ -30,10 +35,14 @@ class Authorization
             throw new \Exception('Переданы неверные параметры авторизации');
         }
 
-        $user = User::query()->where('email', '=', $request->get('email'))->first();
+        if ($request->get('phone')) {
+            $user = $this->userRepository->getOneByPhone($request->get('phone'));
+        } else {
+            $user = $this->userRepository->getOneByEmail($request->get('email'));
+        }
 
         if (!$user instanceof User) {
-            throw new \Exception('Пользователь с таким email не зарегистрирован');
+            throw new \Exception('Пользователь с таким телефоном или email не зарегистрирован');
         }
 
         if (!Hash::check($request->get('password'), $user->getPassword())) {
