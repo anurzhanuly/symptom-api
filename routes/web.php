@@ -31,6 +31,7 @@ Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('login', [AuthenticationController::class, 'login']);
 Route::post('sendCode', [AuthenticationController::class, 'sendCode']);
 Route::post('confirmCode', [AuthenticationController::class, 'confirmCode']);
+Route::post('changePassword', [AuthenticationController::class, 'changePassword']);
 
 Route::middleware('authByToken')->group(function() {
     Route::prefix('/clinics')->group(function () {

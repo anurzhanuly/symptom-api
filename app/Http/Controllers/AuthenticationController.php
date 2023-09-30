@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Symptom\Entities\User;
+use App\Symptom\Services\Commands\ChangePasswordCommand;
 use App\Symptom\Services\Confirmations\ConfirmCode;
 use App\Symptom\Services\Confirmations\SendCode;
 use App\Symptom\Services\Users\ChangePassword;
@@ -84,13 +85,13 @@ class AuthenticationController extends Controller
                 throw new ResourceNotFoundException('Ups! User not found.');
             }
 
-            if (!$changePassword->execute($user->getId(), $request->get('code'), $request->get('password'))) {
+            if (!$changePassword->execute(ChangePasswordCommand::create($user, $request->get('code'), $request->get('password')))) {
                 throw new \Exception('Ups! Something went wrong.');
             }
         } catch (\Throwable $exception) {
             return $this->sendError($exception->getMessage());
         }
 
-        return $this->sendResponse([], 'Code has been confirmed.');
+        return $this->sendResponse([], 'Password has been changed.');
     }
 }
