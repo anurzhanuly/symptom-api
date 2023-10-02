@@ -5,8 +5,6 @@ namespace App\Providers;
 use App\Symptom\Services\Recommendations\GetPatientCard;
 use App\Symptom\Utils\Clients\chatGPT\Client as ChatGptClient;
 use App\Symptom\Utils\Clients\chatGPT\ClientInterface as ChatGptInterface;
-use App\Symptom\Utils\Clients\Sms\Sms;
-use App\Symptom\Utils\Clients\Sms\SmsInterface;
 use App\Symptom\Utils\Clients\SymptomAI\SymptomAI;
 use App\Symptom\Utils\Clients\SymptomAI\SymptomAiInterface;
 use App\Symptom\Utils\Clients\Translator\Translator;
@@ -38,8 +36,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TranslatorInterface::class, function () {
             return new Translator();
         });
-
-        $this->app->bind(SmsInterface::class, Sms::class);
     }
 
     /**

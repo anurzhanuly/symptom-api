@@ -29,8 +29,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('register', [AuthenticationController::class, 'register']);
 Route::post('login', [AuthenticationController::class, 'login']);
-Route::post('sendCode', [AuthenticationController::class, 'sendCode']);
-Route::post('confirmCode', [AuthenticationController::class, 'confirmCode']);
 
 Route::middleware('authByToken')->group(function() {
     Route::prefix('/clinics')->group(function () {
