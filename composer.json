@@ -13,7 +13,6 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "league/fractal": "^0.20.1",
-        "mobizon/mobizon-php": "^2.0",
         "openai-php/laravel": "^0.5.2",
         "psr/log": "^1.1.0",
         "statickidz/php-google-translate-free": "^1.2"

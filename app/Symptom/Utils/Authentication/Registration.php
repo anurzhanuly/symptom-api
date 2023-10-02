@@ -98,7 +98,7 @@ class Registration
     protected function isInvalidData(Request $request): bool
     {
         $validator = Validator::make($request->all(), [
-            'phone'      => 'required',
+            'email'      => 'required|email',
             'password'   => 'required',
             'c_password' => 'required|same:password',
             'type'       => 'required|string',
