@@ -63,7 +63,6 @@ class Authorization
     protected function isInvalidData(Request $request): bool
     {
         $validator = Validator::make($request->all(), [
-            'email'      => 'required|email',
             'password'   => 'required',
         ]);
 
