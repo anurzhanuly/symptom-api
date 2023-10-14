@@ -12,6 +12,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ConfirmCode extends Model
 {
+    public const DAY_LIMIT = 3;
+
+    public const DAY_LIMIT_MESSAGE = 'Превышено количество попыток за день! Попробуйте позже.';
+
+    public const MINUTE_LIMIT_MESSAGE = 'Превышено количество попыток в минуту! Попробуйте позже.';
+
     protected $table = 'confirm_codes';
 
     protected $fillable = [
