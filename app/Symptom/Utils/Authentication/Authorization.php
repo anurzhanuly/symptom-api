@@ -35,11 +35,7 @@ class Authorization
             throw new \Exception('Переданы неверные параметры авторизации');
         }
 
-        if ($request->get('phone')) {
-            $user = $this->userRepository->getOneByPhone($request->get('phone'));
-        } else {
-            $user = $this->userRepository->getOneByEmail($request->get('email'));
-        }
+        $user = $this->userRepository->getOneByPhone($request->get('phone'));
 
         if (!$user instanceof User) {
             throw new \Exception('Пользователь с таким телефоном или email не зарегистрирован');
@@ -63,6 +59,7 @@ class Authorization
     protected function isInvalidData(Request $request): bool
     {
         $validator = Validator::make($request->all(), [
+            'phone'      => 'required',
             'password'   => 'required',
         ]);
 
