@@ -22,7 +22,7 @@ class Save
         $this->resultsRepository = $resultsRepository;
     }
 
-    public function execute(ResultsSaveCommand $command)
+    public function execute(ResultsSaveCommand $command): void
     {
         $result = new Result();
 
