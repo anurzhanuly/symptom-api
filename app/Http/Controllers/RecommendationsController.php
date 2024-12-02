@@ -57,9 +57,13 @@ class RecommendationsController extends Controller
 
         if ($mobilePatientID !== self::UNREGISTERED_USER) {
             $mobileWebhookURL = config('mobile.webhookURL');
+            $payload = [
+                'recommendations' => $response['recommendations'],
+                'mobilePatientID' => $mobilePatientID,
+            ];
 
             try {
-                Http::retry(3, 100)->post($mobileWebhookURL, $response['recommendations']);
+                Http::retry(3, 100)->post($mobileWebhookURL, $payload);
             } catch (\Exception $exception) {
                 $response['error'] = "Mobile Webhook Error: might be a connection error.";
                 Log::error($exception->getMessage());
