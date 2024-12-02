@@ -37,7 +37,18 @@ class RecommendationsController extends Controller
         $response['symptomAi']       = [];
 
         if ($mobilePatientID !== self::UNREGISTERED_USER) {
-            $patientID = $mobilePatientID;
+            $mobileWebhookURL = config('mobile.webhookURL');
+            $payload = [
+                'recommendations' => $response['recommendations'],
+                'mobilePatientID' => $mobilePatientID,
+            ];
+
+            try {
+                Http::retry(3, 100)->post($mobileWebhookURL, $payload);
+            } catch (\Exception $exception) {
+                $response['error'] = "Mobile Webhook Error: might be a connection error.";
+                Log::error($exception->getMessage());
+            }
         }
 
         if ($patientID === self::UNREGISTERED_USER) {
@@ -54,21 +65,6 @@ class RecommendationsController extends Controller
                 $patientAnswers
             )
         );
-
-        if ($mobilePatientID !== self::UNREGISTERED_USER) {
-            $mobileWebhookURL = config('mobile.webhookURL');
-            $payload = [
-                'recommendations' => $response['recommendations'],
-                'mobilePatientID' => $mobilePatientID,
-            ];
-
-            try {
-                Http::retry(3, 100)->post($mobileWebhookURL, $payload);
-            } catch (\Exception $exception) {
-                $response['error'] = "Mobile Webhook Error: might be a connection error.";
-                Log::error($exception->getMessage());
-            }
-        }
 
         return response()->json($response);
     }
