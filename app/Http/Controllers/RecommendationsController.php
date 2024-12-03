@@ -44,7 +44,8 @@ class RecommendationsController extends Controller
             ];
 
             try {
-                Http::retry(3, 100)->post($mobileWebhookURL, $payload);
+                $mobileResponse = Http::retry(3, 100)->post($mobileWebhookURL, $payload);
+                Log::info("mobileResponse: $mobileResponse payload: " . json_encode($mobileResponse));
             } catch (\Exception $exception) {
                 $response['error'] = "Mobile Webhook Error: might be a connection error.";
                 Log::error($exception->getMessage());

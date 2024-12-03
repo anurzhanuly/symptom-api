@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'webhookURL' => env('MOBILE_WEBHOOK', 'http://127.0.0.1:8800'),
+    'webhookURL' => env('MOBILE_WEBHOOK_URL', 'http://127.0.0.1:8800'),
 ];
