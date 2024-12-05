@@ -29,14 +29,14 @@ class RecommendationsController extends Controller
         $patientAnswers  = $request->get('answers');
         $doctorID        = $request->get('doctorID', self::NO_DOCTOR);
         $patientID       = $request->get('patientID', self::UNREGISTERED_USER);
-        $mobilePatientID = $request->get('mobilePatientID', self::UNREGISTERED_USER);
+        $mobilePatientID = $request->get('mobilePatientID', '');
         $lang            = $request->get('lang', 'ru');
 
         $response['recommendations'] = $getRecommendationsService->execute($patientAnswers);
         $response['patientCard']     = $getPatientCardService->execute($patientAnswers);
         $response['symptomAi']       = [];
 
-        if ($mobilePatientID !== self::UNREGISTERED_USER) {
+        if ($mobilePatientID !== '') {
             $mobileWebhookURL = config('mobile.webhookURL');
             $payload = [
                 'recommendations' => $response['recommendations'],
