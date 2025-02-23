@@ -26,18 +26,23 @@ class RecommendationsController extends Controller
         Save $saveResultsService
     ): JsonResponse {
         $response        = [];
-        $patientAnswers  = $request->get('answers');
-        $doctorID        = $request->get('doctorID', self::NO_DOCTOR);
-        $patientID       = $request->get('patientID', self::UNREGISTERED_USER);
-        $mobilePatientID = $request->get('mobilePatientID', '');
-        $lang            = $request->get('lang', 'ru');
+        $patientAnswers  = $request->post('answers');
+        $doctorID        = (int)$request->post('doctorID', self::NO_DOCTOR);
+        $patientID       = (int)$request->post('patientID', self::UNREGISTERED_USER);
+        $mobilePatientID = $request->post('mobilePatientID', '');
+        $lang            = $request->post('lang', 'ru');
+        $mobileVersion   = $request->post('mobileVersion', 'test');
 
         $response['recommendations'] = $getRecommendationsService->execute($patientAnswers);
         $response['patientCard']     = $getPatientCardService->execute($patientAnswers);
         $response['symptomAi']       = [];
 
+
         if ($mobilePatientID !== '') {
             $mobileWebhookURL = config('mobile.webhookURL');
+            $dynamicMobileWebhookURL = sprintf($mobileWebhookURL, $mobileVersion);
+            Log:: info("webhook URL: $dynamicMobileWebhookURL");
+
             $payload = [
                 'recommendations' => $response['recommendations'],
                 'mobilePatientID' => $mobilePatientID,
