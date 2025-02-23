@@ -1,9 +1,12 @@
 <?php
 namespace App\Symptom\Entities;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable implements FilamentUser
 {
     protected $table = 'users';
 
@@ -40,5 +43,10 @@ class User extends Model
     public function getCabinetId(): int
     {
         return $this->cabinet_id;
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return true;
     }
 }
