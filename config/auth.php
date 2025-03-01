@@ -37,8 +37,13 @@ return [
 
     'guards' => [
         'web' => [
-            'driver' => 'passport',
+            'driver' => 'session',
             'provider' => 'users',
+        ],
+        // Новый guard для Filament (связан с моделью Admin)
+        'filament' => [
+            'driver' => 'session',
+            'provider' => 'admins',  // Вот этот новый провайдер
         ],
     ],
 
@@ -63,6 +68,12 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        // Новый провайдер для админов
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
 
         // 'users' => [
